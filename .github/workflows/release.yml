@@ -1,0 +1,52 @@
+# One-time setup before this can run: register a pending trusted publisher at
+# https://rubygems.org/settings/pending_trusted_publishers for each gem name,
+# pointing at owner misabegovic, repository enola-rb, workflow release.yml.
+# Leave the environment field blank there, or add a matching `environment:` to
+# the job below. No API token is involved at any point.
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      gem:
+        description: Which gem to build and push
+        required: true
+        default: all
+        type: choice
+        options:
+          - all
+          - enola-rb
+          - munola
+          - enola
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+
+      - uses: rubygems/configure-rubygems-credentials@v2.1.0
+
+      - name: Build and push
+        env:
+          SELECTED: ${{ inputs.gem }}
+        run: |
+          set -euo pipefail
+          mkdir -p pkg
+          for name in enola-rb munola enola; do
+            if [ "$SELECTED" = "all" ] || [ "$SELECTED" = "$name" ]; then
+              gem build "$name.gemspec" -o "pkg/$name.gem"
+              gem push "pkg/$name.gem"
+            fi
+          done
