@@ -1,0 +1,38 @@
+# Publishes the enola-rb gem only. One workflow per gem is deliberate: a trusted
+# publisher is matched on owner, repository and workflow filename, and the
+# token it returns authorises a single gem, so gems sharing one workflow are
+# ambiguous and the same one wins every exchange.
+#
+# Register at https://rubygems.org/profile/oidc/pending_trusted_publishers with
+# gem name enola-rb, owner misabegovic, repository enola-rb, workflow
+# release-enola-rb.yml, environment blank.
+name: Release enola-rb
+
+on:
+  workflow_dispatch:
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+
+      - uses: rubygems/configure-rubygems-credentials@v2.1.0
+
+      - name: Build and push
+        run: |
+          set -euo pipefail
+          mkdir -p pkg
+          gem build enola-rb.gemspec -o pkg/enola-rb.gem
+          gem push pkg/enola-rb.gem
