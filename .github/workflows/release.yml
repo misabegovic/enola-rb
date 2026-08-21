@@ -42,11 +42,21 @@ jobs:
         env:
           SELECTED: ${{ inputs.gem }}
         run: |
-          set -euo pipefail
+          set -uo pipefail
           mkdir -p pkg
+          failed=""
           for name in enola-rb munola enola; do
             if [ "$SELECTED" = "all" ] || [ "$SELECTED" = "$name" ]; then
               gem build "$name.gemspec" -o "pkg/$name.gem"
-              gem push "pkg/$name.gem"
+              if gem push "pkg/$name.gem"; then
+                echo "pushed $name"
+              else
+                echo "FAILED $name"
+                failed="$failed $name"
+              fi
             fi
           done
+          if [ -n "$failed" ]; then
+            echo "::error::could not push:$failed (each gem needs its own pending trusted publisher)"
+            exit 1
+          fi
