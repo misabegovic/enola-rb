@@ -8,16 +8,23 @@ Gem::Specification.new do |spec|
   spec.authors = ["Muhamed Isabegovic"]
   spec.email = ["m.isabegovic@hotmail.com"]
 
-  spec.summary = "One person's taste on top of enola: a channel of its own and a recipe catalogue bound by what the tree shows."
+  spec.summary = "Runs a fork build of enola, not the enola-labs release: a channel of its own and a recipe catalogue bound by what the tree shows."
   spec.description = <<~TEXT
-    The same pure-Ruby wrapper as the enola gem over another channel: the
-    builds cut from a fork of enola, each release naming what differs. This
+    The binary this gem fetches is not an enola-labs release. It is a build
+    cut from https://github.com/misabegovic/enola, a fork of enola, whose
+    release notes name what differs from upstream release by release; this
     gem drives channel release #{Munola::CHANNEL_VERSION}, built on enola
-    #{Munola::UPSTREAM_VERSION}. `munola init` writes the recipe catalogue the
+    #{Munola::UPSTREAM_VERSION}. Everything else is the enola gem's wrapper,
+    unchanged: fetched on first use, verified against the checksums the
+    release publishes, cached per user, every command and exit code
+    forwarded. Use the enola gem to run stock upstream instead.
+
+    What the fork adds: `munola init` writes the recipe catalogue the
     enola-guides gem carries (Ember, data ownership, API boundaries,
-    background work, a tenant foreign key) into the project and binds the
-    recipes its tree justifies, and turns both Ruby providers on by default. The Rails generator lives in munola-rb. Offered
-    upstream where it fits; no binary here, nothing compiled.
+    background work, a tenant foreign key) into the project, binds the
+    recipes its tree justifies, and turns both Ruby providers on by default.
+    The Rails generator lives in munola-rb. Offered upstream where it fits;
+    no binary here, nothing compiled.
   TEXT
   spec.homepage = "https://github.com/misabegovic/enola-rb"
   spec.license = "Apache-2.0"

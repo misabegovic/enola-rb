@@ -8,16 +8,18 @@ Gem::Specification.new do |spec|
   spec.authors = ["Muhamed Isabegovic"]
   spec.email = ["m.isabegovic@hotmail.com"]
 
-  spec.summary = "The Rails layer over the munola gem: the generator that writes the recipe catalogue an app has a need for."
+  spec.summary = "The Rails layer over the munola gem, which runs a fork build of enola rather than the enola-labs release."
   spec.description = <<~TEXT
-    What enola-rb is to the enola gem, this is to munola: `rails generate
-    munola:install` writes enola/constraints/ from the starter laws, binds the
-    recipes the binary's own init picks, then writes the munola catalogue and
-    binds the recipes the tree justifies, filling the tenant foreign key from
-    db/schema.rb when a column names one. The enola:init, enola:snapshot and
-    enola:check rake tasks come from enola-rb and drive munola's binary,
-    because munola installs its own resolver. Pure Ruby; no binary, nothing
-    compiled.
+    Depends on munola, so the binary these tasks drive is a fork build of
+    enola rather than an enola-labs release; enola-rb is the same layer over
+    stock upstream. What enola-rb is to the enola gem, this is to munola:
+    `rails generate munola:install` writes enola/constraints/ from the starter
+    laws, binds the recipes the binary's own init picks, then writes the
+    munola catalogue and binds the recipes the tree justifies, filling the
+    tenant foreign key from db/schema.rb when a column names one. The
+    enola:init, enola:snapshot and enola:check rake tasks come from enola-rb
+    and drive munola's binary, because munola installs its own resolver. Pure
+    Ruby; no binary, nothing compiled.
   TEXT
   spec.homepage = "https://github.com/misabegovic/enola-rb"
   spec.license = "Apache-2.0"
