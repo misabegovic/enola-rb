@@ -25,7 +25,7 @@ module FakeRelease
     exit 0
   SH
 
-  def self.build(root, platform:, version: Enola::VERSION, prefix: "enola", checksum: nil)
+  def self.build(root, platform:, version: Enola::UPSTREAM_VERSION, prefix: "enola", checksum: nil)
     release = File.join(root, "v#{version}")
     FileUtils.mkdir_p(release)
     Dir.mktmpdir do |stage|
@@ -57,7 +57,7 @@ class EnolaTest < Minitest::Test
     @tmp = Dir.mktmpdir("enola-test")
     @cache = File.join(@tmp, "cache")
     @release_base = FakeRelease.build(File.join(@tmp, "releases"), platform: PLATFORM)
-    @channel = Enola::Channel.new(name: "upstream", release_base: @release_base, version: Enola::VERSION, asset_prefix: "enola")
+    @channel = Enola::Channel.new(name: "upstream", release_base: @release_base, version: Enola::UPSTREAM_VERSION, asset_prefix: "enola")
   end
 
   def teardown
@@ -73,6 +73,6 @@ class EnolaTest < Minitest::Test
   end
 
   def unreachable
-    Enola::Channel.new(name: "upstream", release_base: "file://#{@tmp}/missing", version: Enola::VERSION, asset_prefix: "enola")
+    Enola::Channel.new(name: "upstream", release_base: "file://#{@tmp}/missing", version: Enola::UPSTREAM_VERSION, asset_prefix: "enola")
   end
 end

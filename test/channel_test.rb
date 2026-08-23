@@ -12,6 +12,12 @@ class ChannelTest < Minitest::Test
     assert_equal File.join("/c", "upstream", Enola::UPSTREAM_VERSION), channel.cache_dir("/c")
   end
 
+  def test_the_gem_versions_itself_and_names_the_release_it_drives
+    assert_match(/\A\d+\.\d+\.\d+\z/, Enola::VERSION)
+    assert_match(/\A\d+\.\d+\.\d+\z/, Enola::UPSTREAM_VERSION)
+    assert_equal Enola::UPSTREAM_VERSION, Enola::Channel::UPSTREAM.version
+  end
+
   def test_another_channel_overrides_name_and_release_base_only
     channel = Enola::Channel.new(name: "other", release_base: "https://example.test/dl", version: "0.4.4.1", asset_prefix: "enola")
 

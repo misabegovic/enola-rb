@@ -5,7 +5,7 @@ require_relative "test_helper"
 class ResolverTest < EnolaTest
   def test_cache_wins_over_everything
     fetcher.fetch
-    other = FakeRelease.binary(File.join(@tmp, "bin"), Enola::VERSION)
+    other = FakeRelease.binary(File.join(@tmp, "bin"), Enola::UPSTREAM_VERSION)
 
     found = resolver(path: File.dirname(other)).resolve
 
@@ -14,7 +14,7 @@ class ResolverTest < EnolaTest
   end
 
   def test_a_path_binary_is_used_only_when_its_version_matches_the_pin
-    matching = FakeRelease.binary(File.join(@tmp, "bin"), Enola::VERSION)
+    matching = FakeRelease.binary(File.join(@tmp, "bin"), Enola::UPSTREAM_VERSION)
 
     found = resolver(channel: unreachable, path: File.dirname(matching)).resolve
 
@@ -36,7 +36,7 @@ class ResolverTest < EnolaTest
 
     error = assert_raises(Enola::Unavailable) { resolver(channel: unreachable, path: File.dirname(other)).resolve }
 
-    assert_match(/the enola on PATH is 0\.3\.9, the Gemfile pins #{Enola::VERSION}/, error.message)
+    assert_match(/the enola on PATH is 0\.3\.9, the Gemfile pins #{Enola::UPSTREAM_VERSION}/, error.message)
   end
 
   def test_the_wrapper_itself_and_gem_binstubs_on_path_are_never_probed

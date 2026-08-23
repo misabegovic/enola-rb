@@ -8,11 +8,12 @@ Gem::Specification.new do |spec|
   spec.authors = ["Muhamed Isabegovic"]
   spec.email = ["m.isabegovic@hotmail.com"]
 
-  spec.summary = "Runs the released enola from Ruby: fetched on first use, verified, pinned to this gem's version."
+  spec.summary = "Runs the released enola from Ruby: fetched on first use, verified, cached. This release drives enola #{Enola::UPSTREAM_VERSION}."
   spec.description = <<~TEXT
     A pure-Ruby wrapper around enola, the architecture-graph tool by enola-labs.
-    The gem's version is the upstream release it drives. The binary is not in
-    the gem: the first command that needs it downloads the release for your
+    The gem versions itself; the enola release it drives is named in its
+    UPSTREAM_VERSION, #{Enola::UPSTREAM_VERSION} here. The binary is not in the
+    gem: the first command that needs it downloads the release for your
     platform, verifies it against the checksum the release publishes, and keeps
     it in a per-user cache. Every command and exit code is forwarded unchanged.
     This gem is not an enola-labs release.

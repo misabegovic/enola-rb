@@ -17,7 +17,7 @@ class RunnerTest < EnolaTest
     err = StringIO.new
     Enola::Runner.new(resolver: resolver, channel: @channel, stderr: err).run(["echo", "--verbose"])
 
-    assert_equal "enola: upstream #{Enola::VERSION} via cache (#{fetcher.binary_path})", err.string.lines.first.chomp
+    assert_equal "enola: upstream #{Enola::UPSTREAM_VERSION} via cache (#{fetcher.binary_path})", err.string.lines.first.chomp
   end
 
   def test_without_verbose_nothing_is_added_to_stderr

@@ -6,7 +6,7 @@ class ProbeTest < EnolaTest
   def test_reads_the_version_and_probes_each_surface
     probe = Enola::Probe.new(fetcher.fetch)
 
-    assert_equal Enola::VERSION, probe.version
+    assert_equal Enola::UPSTREAM_VERSION, probe.version
     assert_equal({ constraints: true, providers: true, check: true, plan: true, hook: false }, probe.capabilities)
   end
 

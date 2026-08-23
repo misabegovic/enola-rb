@@ -16,7 +16,7 @@ class EnolaRbInstallerTest < EnolaTest
       echo 'unknown command "constraints"'
       exit 1
     fi
-    echo "enola version #{Enola::VERSION}"
+    echo "enola version #{Enola::UPSTREAM_VERSION}"
   SH
 
   def setup

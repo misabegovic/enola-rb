@@ -17,7 +17,7 @@ class MunolaRbGeneratorTest < EnolaTest
       exit 0
     fi
     if [ "$1" = "providers" ] && [ "$2" = "fetch" ]; then echo "rubydex 0.4.0 installed"; exit 0; fi
-    echo "enola version #{Enola::VERSION}"
+    echo "enola version #{Enola::UPSTREAM_VERSION}"
   SH
 
   SCHEMA = <<~RUBY

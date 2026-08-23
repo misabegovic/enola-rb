@@ -35,6 +35,6 @@ Gem::Specification.new do |spec|
     *Dir.glob("lib/generators/munola/**/*.rb")
   ]
 
-  spec.add_dependency "enola-rb", "~> #{Munola::UPSTREAM_VERSION}"
-  spec.add_dependency "munola", Munola::VERSION
+  spec.add_dependency "enola-rb", "~> 0.5.0"
+  spec.add_dependency "munola", "~> 0.5.0"
 end

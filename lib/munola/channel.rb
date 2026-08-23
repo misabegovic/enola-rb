@@ -4,7 +4,7 @@ module Munola
   CHANNEL = Enola::Channel.new(
     name: "munola",
     release_base: "https://github.com/misabegovic/enola/releases/download",
-    version: VERSION,
+    version: CHANNEL_VERSION,
     asset_prefix: "enola",
     tag_prefix: "munola-v"
   ).freeze
@@ -32,6 +32,6 @@ module Munola
   end
 
   def self.channel_line(found = resolve)
-    "munola #{VERSION}, built on enola #{UPSTREAM_VERSION}; binary via #{found.source} (#{found.path})"
+    "munola #{VERSION}, channel #{CHANNEL_VERSION} on enola #{UPSTREAM_VERSION}; binary via #{found.source} (#{found.path})"
   end
 end

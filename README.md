@@ -11,8 +11,9 @@ once, in `enola-rb`, and the munola gems add only what is munola's own.
 
 ## `enola`
 
-The wrapper of the released enola. Its version is the upstream release it
-drives: `enola 0.4.4` runs enola-labs' v0.4.4.
+The wrapper of the released enola. The gem versions itself; the release it
+drives is `Enola::UPSTREAM_VERSION`, v0.4.4 as of `enola 0.5.0`, and every
+gemspec summary names it.
 
 ```ruby
 gem "enola"
@@ -44,7 +45,7 @@ This gem is not an enola-labs release; it runs theirs.
 
 ## `enola-rb`
 
-The Rails layer over `enola`. It depends on `enola` at the same version and on
+The Rails layer over `enola`. It depends on `enola` at the same minor and on
 [enola-guides](https://github.com/misabegovic/enola-guides), and adds nothing
 to the binary's surface.
 
@@ -73,10 +74,10 @@ remedy.
 
 One person's taste on top of enola: the same wrapper over another channel,
 the builds cut from [a fork of enola](https://github.com/misabegovic/enola),
-versioned as the upstream they are built on plus a fourth segment
-(`0.4.4.1` drives a build on v0.4.4), each release naming what differs from
-that upstream. It is offered upstream where it fits and is not positioned
-against it. What it adds is the channel and the catalogue.
+each release naming what differs from that upstream. The gem versions itself;
+the channel release it fetches is `Munola::CHANNEL_VERSION`, which carries the
+upstream it is built on plus a segment of its own (`0.4.4.2` on v0.4.4). It is
+offered upstream where it fits and is not positioned against it. What it adds is the channel and the catalogue.
 
 ```ruby
 gem "munola"
@@ -99,18 +100,19 @@ inflection table; it writes `mcp-arch.yaml` with both Ruby providers on by
 default, Prism through the script the `enola` gem carries and Rubydex built
 into the binary, and fetches the Rubydex library, a failed fetch reported as a
 named skip. It never asks a question. `munola --version` names the munola
-version, the upstream it is built on and which binary answered.
+version, the channel release and upstream it is built on, and which binary
+answered.
 
 The binary comes from the fork's releases the way `enola`'s comes from
 upstream's, fetched on first use and verified against the sha256 the release
 publishes; `MUNOLA_BINARY=/path/to/enola` names one to drive instead, and
-every command says which answered. `munola` depends on `enola` at its upstream
-version and on `enola-guides` 0.3.1 or later; requiring it loads no Rails.
+every command says which answered. `munola` depends on `enola` at the same
+minor and on `enola-guides` 0.3.1 or later; requiring it loads no Rails.
 
 ## `munola-rb`
 
 The Rails layer over `munola`, what `enola-rb` is to `enola`. It depends on
-both at their own versions and adds one generator.
+both at the same minor and adds one generator.
 
 ```ruby
 gem "munola-rb"
