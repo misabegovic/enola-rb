@@ -17,6 +17,21 @@ class ProbeTest < EnolaTest
     assert_equal "upstream", report[:channel]
   end
 
+  def test_the_probed_binary_is_told_it_is_inside_a_probe
+    seen = File.join(@tmp, "seen")
+    reporter = File.join(@tmp, "reporter")
+    File.write(reporter, <<~SH)
+      #!/bin/sh
+      echo "${ENOLA_RESOLVER_PROBE:-unset}" > #{seen}
+      echo "enola version 9.9.9"
+    SH
+    FileUtils.chmod(0o755, reporter)
+
+    assert_equal "9.9.9", Enola::Probe.new(reporter).version
+    assert_equal "1", File.read(seen).chomp,
+                 "a probed binary must see the marker, or a wrapper wearing another name probes in turn"
+  end
+
   def test_an_unrunnable_binary_answers_nil_and_false
     probe = Enola::Probe.new(File.join(@tmp, "nowhere"))
 

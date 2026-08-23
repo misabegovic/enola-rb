@@ -25,9 +25,6 @@ module Enola
 
     EXECUTABLE = File.expand_path("../../exe/enola", __dir__)
 
-    # Set on a probe's child so it cannot probe in turn. Read by matching_path_binary.
-    PROBE_ENV = "ENOLA_RESOLVER_PROBE"
-
     # A binstub is a script; the released binary is megabytes. The cap keeps the
     # whole-file read cheap and means a real binary is never slurped to be rejected.
     MAX_SCRIPT_BYTES = 64 * 1024
@@ -39,7 +36,7 @@ module Enola
       # another name. The marker travels into that child, and a resolver that finds
       # it declines to look at PATH — so the recursion is bounded by construction
       # rather than by how well the check below reads a file.
-      return [nil, nil] if ENV[PROBE_ENV]
+      return [nil, nil] if ENV[Probe::PROBE_ENV]
 
       candidate = @path.split(File::PATH_SEPARATOR).map { |dir| File.join(dir, "enola") }
                        .find { |bin| File.executable?(bin) && !wrapper?(bin) }

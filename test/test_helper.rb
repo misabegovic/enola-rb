@@ -95,6 +95,24 @@ module FakeRelease
     path
   end
 
+  # A version manager's shim carries none of the markers a binstub does: it is
+  # a shell script that re-execs the same command through the manager. rbenv
+  # and asdf write one for every gem executable installed.
+  def self.shim(dir, name = "enola")
+    FileUtils.mkdir_p(dir)
+    path = File.join(dir, name)
+    File.write(path, <<~SHIM)
+      #!/usr/bin/env bash
+      set -e
+      [ -n "$RBENV_DEBUG" ] && set -x
+      program="#{name}"
+      export RBENV_ROOT="/home/someone/.rbenv"
+      exec rbenv exec "$program" "$@"
+    SHIM
+    FileUtils.chmod(0o755, path)
+    path
+  end
+
   def self.binary(dir, version)
     FileUtils.mkdir_p(dir)
     path = File.join(dir, "enola")

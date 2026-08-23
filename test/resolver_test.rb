@@ -55,14 +55,24 @@ class ResolverTest < EnolaTest
   # Belt and braces: whatever a content check concludes, a probe must not be able
   # to start another one. The child is told it is inside a probe, and a resolver
   # that sees the marker declines to look at PATH at all.
+  # Why the marker above is not belt and braces. A version manager's shim
+  # carries none of the markers the content check looks for, so it reads as a
+  # real binary and is probed; only the marker keeps that child from probing
+  # in turn.
+  def test_a_version_manager_shim_is_not_recognised_by_the_content_check
+    shim = FakeRelease.shim(File.join(@tmp, "bin"))
+
+    refute resolver.send(:wrapper?, shim)
+  end
+
   def test_a_binary_probed_by_the_resolver_never_probes_in_turn
     matching = FakeRelease.binary(File.join(@tmp, "bin"), Enola::UPSTREAM_VERSION)
 
-    ENV[Enola::Resolver::PROBE_ENV] = "1"
+    ENV[Enola::Probe::PROBE_ENV] = "1"
     begin
       found = resolver(path: File.dirname(matching)).resolve
     ensure
-      ENV.delete(Enola::Resolver::PROBE_ENV)
+      ENV.delete(Enola::Probe::PROBE_ENV)
     end
 
     assert_equal "fetched", found.source,

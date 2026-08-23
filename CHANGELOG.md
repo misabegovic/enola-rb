@@ -1,4 +1,4 @@
-## enola 0.5.0 (unreleased)
+## enola 0.5.1 (2026-08-23)
 
 The resolver no longer probes its own binstub. It read a candidate's first 512
 bytes looking for the marker RubyGems writes, and a real binstub carries a
@@ -11,6 +11,12 @@ slurped only to be rejected, and `Gem.bin_path` is recognised beside
 `Gem.activate_bin_path`. A probe also marks its child's environment, and a resolver
 that sees the marker declines to look at PATH at all, so the recursion is bounded
 by construction rather than by how well a heuristic reads a file.
+
+The marker is written where it is spawned: every probe passes it into the child,
+so a wrapper reached under another name leaves PATH alone instead of probing in
+turn. That bound is what covers the wrappers the content check cannot see, a
+version manager's shim among them, which carries none of the markers a binstub
+does. Reported and fixed by dejo1307 in #1.
 
 ## munola 0.4.4.2 and munola-rb 0.4.4.2 (2026-08-23)
 

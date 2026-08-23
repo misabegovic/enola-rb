@@ -6,12 +6,18 @@ module Enola
   class Probe
     SURFACES = %w[constraints providers check plan hook].freeze
 
+    # A probed binary may be this wrapper wearing another name. The marker
+    # travels into the child, where the resolver reads it and leaves PATH
+    # alone, so a probe cannot start another one.
+    PROBE_ENV = "ENOLA_RESOLVER_PROBE"
+    CHILD_ENV = {PROBE_ENV => "1"}.freeze
+
     def initialize(binary)
       @binary = binary
     end
 
     def version
-      out, status = Open3.capture2e(@binary, "--version")
+      out, status = Open3.capture2e(CHILD_ENV, @binary, "--version")
       return nil unless status.success?
 
       out[/\d+\.\d+\.\d+(?:[.-][\w.]+)?/]
@@ -23,7 +29,7 @@ module Enola
     # for --help); one it lacks is refused by the top-level dispatch by name.
     def capabilities
       SURFACES.to_h do |surface|
-        out, = Open3.capture2e(@binary, surface, "--help")
+        out, = Open3.capture2e(CHILD_ENV, @binary, surface, "--help")
         [surface.to_sym, !out.include?("unknown command \"#{surface}\"")]
       rescue SystemCallError
         [surface.to_sym, false]
