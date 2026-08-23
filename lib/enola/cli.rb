@@ -7,7 +7,7 @@ module Enola
     def self.start(argv, stderr: $stderr, stdout: $stdout)
       case argv.first
       when "--wrapper-probe"
-        found = Resolver.new.resolve
+        found = Enola.resolver.resolve
         stdout.puts JSON.pretty_generate(Probe.new(found.path).report.merge(source: found.source))
         0
       when "--wrapper-fetch"

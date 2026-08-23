@@ -2,7 +2,7 @@
 
 module Enola
   class Runner
-    def initialize(resolver: Resolver.new, channel: Enola.channel, stderr: $stderr)
+    def initialize(resolver: Enola.resolver, channel: Enola.channel, stderr: $stderr)
       @resolver = resolver
       @channel = channel
       @stderr = stderr

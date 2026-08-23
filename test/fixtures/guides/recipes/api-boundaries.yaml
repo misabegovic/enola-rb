@@ -1,0 +1,25 @@
+recipe: api-boundaries
+roles:
+  - name: controllers
+    match: ["app/controllers/**"]
+  - name: policies
+    match: ["app/policies/**"]
+  - name: public-api
+    match: ["app/controllers/api/**"]
+  - name: mutating-actions
+    optional: true
+rules:
+  - id: public-api-reached-only-by-controllers
+    protect: public-api
+    owners: [controllers]
+    via: calls
+    mode: advisory
+    because: "The API layer is entered through a request so that authentication, rate limits and serialization run once, at the edge; an internal caller that reaches an API class directly skips all three and nobody reading the API can see it."
+
+  - id: mutations-are-authorized
+    require_edge: mutating-actions
+    to: policies
+    direction: outbound
+    via: calls
+    mode: advisory
+    because: "Every write passes a policy before it touches a record. Bind the actions that routes reach with POST, PUT, PATCH or DELETE (a part declared with handles: on those methods) and the law names each mutating action that reaches no policy."

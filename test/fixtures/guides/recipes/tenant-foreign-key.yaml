@@ -1,0 +1,12 @@
+recipe: tenant-foreign-key
+roles:
+  - name: tables
+    match: ["db/schema.rb", "db/structure.sql", "app/models/**"]
+    kind: storage
+rules:
+  - id: tenant-foreign-key
+    require: tables
+    when_prop_contains: { prop: columns, value: TENANT_COLUMN }
+    must_prop_contain: { prop: fk_constraints, value: "TENANT_COLUMN->TENANT_TABLE" }
+    mode: advisory
+    because: "A table carrying the tenant column references the tenant, so the database should say so with a foreign key; a row that outlives its tenant is the leak nobody notices until an export. Advisory while a backfill path that ships the column before the constraint is reconciled with the rule; the verdict names every table that carries the column without the key."

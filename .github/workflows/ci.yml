@@ -21,6 +21,7 @@ jobs:
       - run: bundle exec rake test
       - run: gem build enola.gemspec
       - run: gem build enola-rb.gemspec
+      - run: gem build munola.gemspec
   fetch:
     runs-on: ubuntu-latest
     steps:

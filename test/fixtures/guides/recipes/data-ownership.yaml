@@ -1,0 +1,13 @@
+recipe: data-ownership
+roles:
+  - name: store
+    match: ["app/models/**"]
+  - name: readers
+    optional: true
+rules:
+  - id: readers-read-the-store-only
+    allow: readers
+    only: [store]
+    via: calls
+    mode: advisory
+    because: "A reader derives its answer from the store alone, which is what keeps it replayable against a snapshot; a reader that reaches a service or a client answers differently on a different machine. Bind your query objects or report classes as the readers."

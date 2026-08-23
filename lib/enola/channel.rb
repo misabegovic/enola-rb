@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Enola
-  Channel = Struct.new(:name, :release_base, :version, :asset_prefix, keyword_init: true) do
+  Channel = Struct.new(:name, :release_base, :version, :asset_prefix, :tag_prefix, keyword_init: true) do
     def asset(platform)
       "#{asset_prefix}-#{version}-#{platform}.tar.gz"
     end
@@ -10,8 +10,12 @@ module Enola
       "#{asset_prefix}-#{version}-#{platform}.sha256"
     end
 
+    def tag
+      "#{tag_prefix || 'v'}#{version}"
+    end
+
     def url(file)
-      "#{release_base.chomp('/')}/v#{version}/#{file}"
+      "#{release_base.chomp('/')}/#{tag}/#{file}"
     end
 
     def cache_dir(root)

@@ -63,7 +63,7 @@ module EnolaRb
     # read rather than its exit code, because the release that shipped the
     # surface exits through its unknown-command line after doing the work.
     def init_with_binary
-      binary = @binary || Surface.require!(:constraints, binary: Enola::Resolver.new.resolve.path)
+      binary = @binary || Surface.require!(:constraints, binary: Enola.resolver.resolve.path)
       out, status = Open3.capture2e(binary, "constraints", "init", @root)
       note("constraints init: #{out.lines.last&.strip}") unless status.success? || File.exist?(bindings_path)
     rescue Enola::Error => e

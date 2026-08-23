@@ -1,0 +1,83 @@
+recipe: ember-conventions
+roles:
+  - name: components
+    match: ["app/components/**"]
+  - name: integration-tests
+    kind: test_ref
+    match: ["tests/integration/**"]
+  - name: actions
+    kind: symbol
+    where: { decorators: action }
+  - name: framework-controllers
+    kind: symbol
+    where: { superclass_module: "@ember/controller" }
+  - name: constructors
+    match: ["app/**"]
+    name_pattern: "*.constructor"
+  - name: fetchers
+    match: ["app/services/**"]
+  - name: legacy-accessor
+    match: ["app/utils/**"]
+    name_pattern: "*.get"
+  - name: argument-mutators
+    kind: symbol
+    where: { fields_written: args }
+  - name: element-modifiers
+    kind: symbol
+    match: ["app/components/**", "app/modifiers/**"]
+  - name: state-writing-members
+    kind: symbol
+    where: { fields_written: "<any>" }
+  - name: task-factories
+    optional: true
+  - name: fixture-setup
+    optional: true
+rules:
+  - id: no-action-decorator
+    forbid_fact: actions
+    because: "An arrow function binds lexically and needs no decorator; the decorator predates it and the convention says to stop writing it."
+
+  - id: no-framework-controllers
+    forbid_fact: framework-controllers
+    because: "A route component replaces the controller and its template. Controllers are quirky and carry surprising singleton state, and the convention is to stop adding them."
+
+  - id: components-import-no-render-modifiers
+    forbid: components
+    to_name: ["@ember/render-modifiers*", "ember-render-helpers*"]
+    via: imports
+    because: "The render-helper form fires on a lifecycle rather than attaching to the element it acts on, and it has been discouraged for years. A named modifier attaches to the element and says what it acts on."
+
+  - id: constructors-do-not-fetch
+    forbid: constructors
+    to: fetchers
+    via: calls
+    because: "Rendering pulls data in as it is needed. A constructor that fetches is eager, runs before anything asks, and cannot be re-run when the arguments change."
+
+  - id: no-legacy-property-accessor
+    forbid: components
+    to: legacy-accessor
+    via: calls
+    because: "The proxy accessor reads through a layer that no longer exists on a resolved value, and it defeats type checking. Reach for the property."
+
+  - id: arguments-are-not-mutated
+    forbid_fact: argument-mutators
+    because: "Data flows down and actions flow up. A component that writes through its own arguments changes state it does not own, and the owner never learns of it. Pass a callback and let the owner make the change."
+
+  - id: a-modifier-takes-its-element
+    require: element-modifiers
+    when_edge_to: ["*.modifier"]
+    via: calls
+    must_prop_contain: { prop: takes_parameters, value: "yes" }
+    because: "A modifier is handed the element it is attached to. One that declares no parameter is not modifying anything; it is a side effect fired by render, and a getter or a tracked task says that honestly."
+
+  - id: derivations-do-not-write
+    forbid: state-writing-members
+    to: task-factories
+    via: calls
+    because: "A task is derived state and runs inside the render cycle. Writing the component's own state from one schedules another render off the render it is running in. Return the data and read it through the task's value instead."
+
+  - id: component-tests-carry-no-fixtures
+    forbid: integration-tests
+    to: fixture-setup
+    via: calls
+    because: "A fixture library sets up back-end state and has no place in a component test: if the component makes no request, build a front-end record, and if it does, let the acceptance layer answer it."

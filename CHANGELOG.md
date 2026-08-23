@@ -1,3 +1,15 @@
+## munola 0.4.4.1 (2026-08-23)
+
+The wrapper over the munola channel, first release with an implementation.
+`munola init` writes the starter laws and upstream's bindings the way
+`enola:install` does, then the recipe catalogue from enola-guides, binds the
+recipes the tree shows a need for, fills the tenant foreign-key template
+from the schema, writes `mcp-arch.yaml` with Prism and Rubydex on and fetches
+the Rubydex library; `munola --version` names the munola version, its
+upstream base and the binary that answered; `MUNOLA_BINARY` names a binary
+to drive until the first munola release is cut. The channel's tag shape is
+`munola-v<version>` on the fork's releases.
+
 ## enola 0.4.4 (2026-08-23)
 
 The wrapper, first release with an implementation: a pure-Ruby `enola`

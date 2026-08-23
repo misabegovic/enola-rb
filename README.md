@@ -66,8 +66,38 @@ remedy.
 
 ## `munola`
 
-Placeholder at 0.0.0. `munola` will be the same wrapper over another channel,
-the build this project maintains, carrying the guides' content and the recipes
-for the architectures they cover, versioned as the upstream it is built on
-plus a fourth segment, and saying in each release what differs from that
-upstream.
+One person's taste on top of enola: the same wrapper over another channel,
+the builds cut from [a fork of enola](https://github.com/misabegovic/enola),
+versioned as the upstream they are built on plus a fourth segment
+(`0.4.4.1` drives a build on v0.4.4), each release naming what differs from
+that upstream. It is offered upstream where it fits and is not positioned
+against it. What it adds is the channel and the catalogue.
+
+```ruby
+gem "munola"
+```
+
+```sh
+bin/rails generate munola:install --tenant-column company_id
+bundle exec munola init .
+bundle exec munola --version
+```
+
+`munola init` does what `enola:install` does, then what only munola carries:
+it writes the recipe catalogue the `enola-guides` gem ships (Ember
+conventions, data ownership, API boundaries, background work, a tenant
+foreign key) into `enola/recipes/`, binds the recipes the tree justifies
+(`ember-cli-build.js`, a schema with `app/models`, `config/routes.rb` with
+`app/policies`, `app/tasks`, a column most tables share confirmed against
+`db/schema.rb`) and writes every other one as a commented binding; it fills
+the tenant template from the schema's own table names, never from an
+inflection table; it writes `mcp-arch.yaml` with both Ruby providers on by
+default, Prism through the script the `enola` gem carries and Rubydex built
+into the binary, and fetches the Rubydex library, a failed fetch reported as a
+named skip. It never asks a question. `munola --version` names the munola
+version, the upstream it is built on and which binary answered.
+
+The first munola release is what makes the channel real; until it is cut,
+`MUNOLA_BINARY=/path/to/enola` names the binary to drive, and every command
+says so. `munola` depends on `enola` and `enola-rb` at its upstream version
+and on `enola-guides` 0.3.1 or later.

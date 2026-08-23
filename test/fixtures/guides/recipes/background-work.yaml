@@ -1,0 +1,21 @@
+recipe: background-work
+roles:
+  - name: tasks
+    match: ["app/tasks/**"]
+  - name: task-classes
+    match: ["app/tasks/**"]
+    kind: symbol
+    where: { symbol_kind: "class" }
+  - name: controllers
+    match: ["app/controllers/**"]
+rules:
+  - id: maintenance-tasks-live-in-their-namespace
+    require_name: task-classes
+    pattern: "Maintenance::*"
+    because: "The task runner resolves task constants from that namespace, which is the one its generator creates, so a task declared outside it never appears in the runner and cannot be run by anyone."
+
+  - id: maintenance-tasks-never-reach-controllers
+    forbid: tasks
+    to: controllers
+    via: calls
+    because: "A task runs from the runner or the console with no request around it, so controller code reached from one has nothing to read."
