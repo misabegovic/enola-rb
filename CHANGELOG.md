@@ -1,3 +1,20 @@
+## munola 0.4.4.2 and munola-rb 0.4.4.2 (2026-08-23)
+
+munola follows the channel it drives. Its binary is now cut from the stable
+channel after it took eight changes measured against a Ruby architecture
+linter, so the gem's version moves with the release it fetches. The Rails
+layer is its own gem, `munola-rb`, the way `enola-rb` is for the upstream
+channel; `require "munola"` loads no Rails. A catalogue recipe the binary
+already binds is no longer bound a second time.
+
+## enola 0.4.4.1 and enola-rb 0.4.4.1 (2026-08-23)
+
+Wrapper fixes on the same upstream release. A test that set the channel put
+back upstream rather than what it found, so on some orderings a channel gem's
+own installation read as upstream. The Rails layer packaged its generator
+through a glob wide enough to take another channel's; it now packages its own.
+Both gems still drive upstream v0.4.4.
+
 ## munola-rb 0.4.4.1 (2026-08-23)
 
 The Rails layer over munola, what enola-rb is to enola: `rails generate

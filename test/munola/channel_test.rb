@@ -6,16 +6,17 @@ require "munola"
 class MunolaChannelTest < EnolaTest
   def test_the_channel_is_the_fork_at_the_munola_tag
     assert_equal "munola", Munola::CHANNEL.name
-    assert_equal "0.4.4.1", Munola::CHANNEL.version
-    assert_equal "munola-v0.4.4.1", Munola::CHANNEL.tag
-    assert_equal "https://github.com/misabegovic/enola/releases/download/munola-v0.4.4.1/enola-0.4.4.1-linux-amd64.tar.gz",
+    assert_equal Munola::VERSION, Munola::CHANNEL.version
+    assert_equal "munola-v#{Munola::VERSION}", Munola::CHANNEL.tag
+    assert_equal "https://github.com/misabegovic/enola/releases/download/munola-v#{Munola::VERSION}/enola-#{Munola::VERSION}-linux-amd64.tar.gz",
                  Munola::CHANNEL.url(Munola::CHANNEL.asset("linux-amd64"))
     assert_equal Munola::CHANNEL, Enola.channel
   end
 
-  def test_the_version_is_the_upstream_plus_one_segment
-    assert_equal "#{Enola::VERSION}.1", Munola::VERSION
-    assert_equal Enola::VERSION, Munola::UPSTREAM_VERSION
+  def test_the_version_is_the_upstream_release_plus_a_channel_segment
+    assert_match(/\A#{Regexp.escape(Munola::UPSTREAM_VERSION)}\.\d+\z/, Munola::VERSION)
+    assert Enola::VERSION.start_with?(Munola::UPSTREAM_VERSION),
+           "the wrapper drives the same upstream release, with its own patch segment"
   end
 
   def test_a_release_at_the_munola_tag_is_fetched_and_verified
@@ -37,7 +38,8 @@ class MunolaChannelTest < EnolaTest
 
     assert_equal binary, found.path
     assert_match(/MUNOLA_BINARY \(#{Enola::VERSION}\)/, found.source)
-    assert_match(/munola 0\.4\.4\.1, built on enola 0\.4\.4; binary via MUNOLA_BINARY/, Munola.channel_line(found))
+    assert_match(/munola #{Regexp.escape(Munola::VERSION)}, built on enola #{Regexp.escape(Munola::UPSTREAM_VERSION)}; binary via MUNOLA_BINARY/,
+                 Munola.channel_line(found))
   end
 
   def test_the_override_must_be_executable

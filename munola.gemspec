@@ -36,7 +36,7 @@ Gem::Specification.new do |spec|
   spec.bindir = "exe"
   spec.executables = ["munola"]
 
-  spec.add_dependency "enola", Munola::UPSTREAM_VERSION
-  spec.add_dependency "enola-rb", Munola::UPSTREAM_VERSION
+  spec.add_dependency "enola", "~> #{Munola::UPSTREAM_VERSION}"
+  spec.add_dependency "enola-rb", "~> #{Munola::UPSTREAM_VERSION}"
   spec.add_dependency "enola-guides", ">= 0.3.1"
 end
