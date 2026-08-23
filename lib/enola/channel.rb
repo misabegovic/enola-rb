@@ -30,7 +30,7 @@ module Enola
   Channel::UPSTREAM = Channel.new(
     name: "upstream",
     release_base: "https://github.com/enola-labs/enola/releases/download",
-    version: VERSION,
+    version: UPSTREAM_VERSION,
     asset_prefix: "enola"
   ).freeze
 end

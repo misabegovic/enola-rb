@@ -6,10 +6,10 @@ class ChannelTest < Minitest::Test
   def test_upstream_names_the_release_assets_the_way_enola_labs_publishes_them
     channel = Enola::Channel::UPSTREAM
 
-    assert_equal "https://github.com/enola-labs/enola/releases/download/v#{Enola::VERSION}/enola-#{Enola::VERSION}-linux-amd64.tar.gz",
+    assert_equal "https://github.com/enola-labs/enola/releases/download/v#{Enola::UPSTREAM_VERSION}/enola-#{Enola::UPSTREAM_VERSION}-linux-amd64.tar.gz",
                  channel.url(channel.asset("linux-amd64"))
-    assert_equal "enola-#{Enola::VERSION}-darwin-arm64.sha256", channel.checksum_asset("darwin-arm64")
-    assert_equal File.join("/c", "upstream", Enola::VERSION), channel.cache_dir("/c")
+    assert_equal "enola-#{Enola::UPSTREAM_VERSION}-darwin-arm64.sha256", channel.checksum_asset("darwin-arm64")
+    assert_equal File.join("/c", "upstream", Enola::UPSTREAM_VERSION), channel.cache_dir("/c")
   end
 
   def test_another_channel_overrides_name_and_release_base_only

@@ -12,8 +12,8 @@ class RealFetchTest < Minitest::Test
       out, status = Open3.capture2e(path, "--version")
 
       assert status.success?
-      assert_includes out, Enola::VERSION
-      assert_equal Enola::VERSION, Enola::Probe.new(path).version
+      assert_includes out, Enola::UPSTREAM_VERSION
+      assert_equal Enola::UPSTREAM_VERSION, Enola::Probe.new(path).version
     end
   end
 end

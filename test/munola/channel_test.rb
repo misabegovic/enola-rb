@@ -15,8 +15,7 @@ class MunolaChannelTest < EnolaTest
 
   def test_the_version_is_the_upstream_release_plus_a_channel_segment
     assert_match(/\A#{Regexp.escape(Munola::UPSTREAM_VERSION)}\.\d+\z/, Munola::VERSION)
-    assert Enola::VERSION.start_with?(Munola::UPSTREAM_VERSION),
-           "the wrapper drives the same upstream release, with its own patch segment"
+    assert_equal Enola::UPSTREAM_VERSION, Munola::UPSTREAM_VERSION
   end
 
   def test_a_release_at_the_munola_tag_is_fetched_and_verified
