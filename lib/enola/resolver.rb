@@ -25,9 +25,22 @@ module Enola
 
     EXECUTABLE = File.expand_path("../../exe/enola", __dir__)
 
+    # Set on a probe's child so it cannot probe in turn. Read by matching_path_binary.
+    PROBE_ENV = "ENOLA_RESOLVER_PROBE"
+
+    # A binstub is a script; the released binary is megabytes. The cap keeps the
+    # whole-file read cheap and means a real binary is never slurped to be rejected.
+    MAX_SCRIPT_BYTES = 64 * 1024
+
     private
 
     def matching_path_binary
+      # A probe runs the candidate, and the candidate may be this wrapper wearing
+      # another name. The marker travels into that child, and a resolver that finds
+      # it declines to look at PATH — so the recursion is bounded by construction
+      # rather than by how well the check below reads a file.
+      return [nil, nil] if ENV[PROBE_ENV]
+
       candidate = @path.split(File::PATH_SEPARATOR).map { |dir| File.join(dir, "enola") }
                        .find { |bin| File.executable?(bin) && !wrapper?(bin) }
       return [nil, nil] unless candidate
@@ -39,11 +52,18 @@ module Enola
     # Bundler puts this gem's own exe on PATH, and a rubygems binstub for the
     # gem looks like a binary too; probing either would run the wrapper inside
     # itself without end.
+    #
+    # The whole file is read, not a fixed head. RubyGems writes a /bin/sh + `ruby -x`
+    # polyglot preamble carrying the interpreter's absolute path, so the marker sits
+    # ~580 bytes in — past the 512 this used to read, which made the guard miss every
+    # real binstub and the wrapper probe itself without end.
     def wrapper?(bin)
       return true if File.realpath(bin) == File.realpath(EXECUTABLE)
+      return false if File.size(bin) > MAX_SCRIPT_BYTES
 
-      head = File.binread(bin, 512)
-      head.include?("Gem.activate_bin_path") || head.include?('require "enola"')
+      body = File.binread(bin)
+      body.include?("Gem.activate_bin_path") || body.include?("Gem.bin_path") ||
+        body.include?('require "enola"')
     rescue SystemCallError
       true
     end

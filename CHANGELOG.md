@@ -1,3 +1,17 @@
+## enola 0.5.0 (unreleased)
+
+The resolver no longer probes its own binstub. It read a candidate's first 512
+bytes looking for the marker RubyGems writes, and a real binstub carries a
+`/bin/sh` + `ruby -x` preamble holding the interpreter's absolute path, which puts
+that marker around byte 580 — outside the window. So the guard missed every
+RubyGems-generated binstub, the wrapper ran itself, and running itself has no
+bottom: `enola --version` on a cold cache spawned Ruby processes until it was
+killed. The whole file is read now, capped at 64 KiB so a released binary is never
+slurped only to be rejected, and `Gem.bin_path` is recognised beside
+`Gem.activate_bin_path`. A probe also marks its child's environment, and a resolver
+that sees the marker declines to look at PATH at all, so the recursion is bounded
+by construction rather than by how well a heuristic reads a file.
+
 ## munola 0.4.4.2 and munola-rb 0.4.4.2 (2026-08-23)
 
 munola follows the channel it drives. Its binary is now cut from the stable
