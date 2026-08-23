@@ -81,13 +81,14 @@ class EnolaRbInstallerTest < EnolaTest
 
   def test_an_absent_binary_still_writes_the_laws_and_says_so
     ENV["ENOLA_CACHE_DIR"] = File.join(@tmp, "empty-cache")
+    installed = Enola.channel
     Enola.channel = unreachable
     report = install(binary: nil)
 
     assert File.exist?(File.join(@app, "enola", "constraints", "models-do-not-reach-controllers.rb"))
     assert report.notes.any? { |note| note.include?("absent") }, report.notes.inspect
   ensure
-    Enola.channel = Enola::Channel::UPSTREAM
+    Enola.channel = installed
     ENV.delete("ENOLA_CACHE_DIR")
   end
 
