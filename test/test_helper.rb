@@ -12,7 +12,7 @@ module FakeRelease
     case "$1" in
       --version) echo "enola version VERSION"; exit 0 ;;
       constraints|providers|check|plan) echo "Usage: enola $1"; exit 2 ;;
-      hook) echo "unknown command \"hook\" (expected one of: check)"; exit 1 ;;
+      hook) echo 'unknown command "hook" (expected one of: check)'; exit 1 ;;
       fail) exit 3 ;;
       echo) shift; echo "$@"; exit 0 ;;
     esac
