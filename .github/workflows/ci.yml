@@ -22,6 +22,7 @@ jobs:
       - run: gem build enola.gemspec
       - run: gem build enola-rb.gemspec
       - run: gem build munola.gemspec
+      - run: gem build munola-rb.gemspec
   fetch:
     runs-on: ubuntu-latest
     steps:

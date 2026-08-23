@@ -14,10 +14,14 @@ require_relative "enola/cli"
 
 module Enola
   class << self
-    attr_writer :channel, :resolver_factory
+    attr_writer :channel
 
     # Another channel's gem installs its own resolver here, so every rake
     # task and wrapped command built on Runner drives that channel's binary.
+    # Readable as well as writable: whoever replaces it can put back what was
+    # installed rather than what it assumed.
+    attr_accessor :resolver_factory
+
     def resolver
       (@resolver_factory || -> { Resolver.new(channel: channel) }).call
     end

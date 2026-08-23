@@ -1,3 +1,17 @@
+## munola-rb 0.4.4.1 (2026-08-23)
+
+The Rails layer over munola, what enola-rb is to enola: `rails generate
+munola:install [--tenant-column COLUMN]` writes the starter laws, the
+bindings the binary's own init picks and the munola catalogue, and the
+enola:init, enola:snapshot and enola:check tasks drive munola's binary
+because munola installs its own resolver. The generator and the railtie
+move here out of the munola gem, so `require "munola"` loads no Rails and a
+project that only drives the binary carries no Rails machinery. The recipe
+catalogue, the detection and the tenant-column argument stay munola's.
+
+`Enola.resolver_factory` is readable as well as writable, so whoever
+replaces it can put back what was installed rather than what it assumed.
+
 ## munola 0.4.4.1 (2026-08-23)
 
 The wrapper over the munola channel, first release with an implementation.

@@ -16,8 +16,8 @@ Gem::Specification.new do |spec|
     writes the recipe catalogue the enola-guides gem carries (Ember, data
     ownership, API boundaries, background work, a tenant foreign key) into
     the project and binds the recipes its tree justifies, and turns both Ruby
-    providers on by default. Offered upstream where it fits; no binary here,
-    nothing compiled.
+    providers on by default. The Rails generator lives in munola-rb. Offered
+    upstream where it fits; no binary here, nothing compiled.
   TEXT
   spec.homepage = "https://github.com/misabegovic/enola-rb"
   spec.license = "Apache-2.0"
@@ -31,8 +31,7 @@ Gem::Specification.new do |spec|
     "README.md",
     "CHANGELOG.md",
     "lib/munola.rb",
-    *Dir.glob("lib/munola/*"),
-    *Dir.glob("lib/generators/munola/**/*.rb")
+    *Dir.glob("lib/munola/*")
   ]
   spec.bindir = "exe"
   spec.executables = ["munola"]

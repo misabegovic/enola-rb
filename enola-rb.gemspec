@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
     "CHANGELOG.md",
     "lib/enola-rb.rb",
     *Dir.glob("lib/enola_rb/*"),
-    *Dir.glob("lib/generators/**/*.rb")
+    *Dir.glob("lib/generators/enola/**/*.rb")
   ]
 
   spec.add_dependency "enola", EnolaRb::VERSION

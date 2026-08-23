@@ -12,6 +12,7 @@ module Munola
     PLACEHOLDERS = { column: "TENANT_COLUMN", table: "TENANT_TABLE" }.freeze
 
     def self.source_dir
+      require "enola-rb"
       File.join(EnolaRb::Guides.root, "recipes")
     end
 

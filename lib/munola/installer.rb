@@ -26,7 +26,11 @@ module Munola
     # The Rails layer first (starter laws, the binary's own init, upstream's
     # recipes commented), then what only munola carries: the catalogue, the
     # bindings the tree justifies, the providers both on by default.
+    # enola-rb carries the installer this reuses; it is required here rather
+    # than at load time so `require "munola"` stays a wrapper and pulls in no
+    # Rails machinery for a project that only drives the binary.
     def install
+      require "enola-rb"
       rails = EnolaRb::Installer.new(@root, binary: resolved_binary, stderr: @stderr).install
       @report.written.concat(rails.written)
       @report.notes.concat(rails.notes)

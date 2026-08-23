@@ -1,8 +1,13 @@
 # enola-rb
 
-Three pure-Ruby gems, one repository, for running
+Four pure-Ruby gems, one repository, for running
 [enola](https://github.com/enola-labs/enola), the architecture-graph tool,
 from Ruby. None of them carries a binary or compiles anything.
+
+Two channels, the same layering on both: `enola` wraps the released upstream
+binary and `enola-rb` adds the Rails layer on it; `munola` wraps the munola
+binary and `munola-rb` adds the Rails layer on that. The Rails code is written
+once, in `enola-rb`, and the munola gems add only what is munola's own.
 
 ## `enola`
 
@@ -78,8 +83,7 @@ gem "munola"
 ```
 
 ```sh
-bin/rails generate munola:install --tenant-column company_id
-bundle exec munola init .
+bundle exec munola init . --tenant-column company_id
 bundle exec munola --version
 ```
 
@@ -97,7 +101,28 @@ into the binary, and fetches the Rubydex library, a failed fetch reported as a
 named skip. It never asks a question. `munola --version` names the munola
 version, the upstream it is built on and which binary answered.
 
-The first munola release is what makes the channel real; until it is cut,
-`MUNOLA_BINARY=/path/to/enola` names the binary to drive, and every command
-says so. `munola` depends on `enola` and `enola-rb` at its upstream version
-and on `enola-guides` 0.3.1 or later.
+The binary comes from the fork's releases the way `enola`'s comes from
+upstream's, fetched on first use and verified against the sha256 the release
+publishes; `MUNOLA_BINARY=/path/to/enola` names one to drive instead, and
+every command says which answered. `munola` depends on `enola` at its upstream
+version and on `enola-guides` 0.3.1 or later; requiring it loads no Rails.
+
+## `munola-rb`
+
+The Rails layer over `munola`, what `enola-rb` is to `enola`. It depends on
+both at their own versions and adds one generator.
+
+```ruby
+gem "munola-rb"
+```
+
+```sh
+bin/rails generate munola:install --tenant-column company_id
+bin/rake enola:snapshot
+bin/rake enola:check
+```
+
+The generator runs the same install `munola init` does. The rake tasks are
+enola-rb's and need no munola copy: `munola` installs its own resolver when it
+loads, so `enola:snapshot` and `enola:check` drive the munola binary in an app
+that has this gem, and the upstream binary in one that does not.

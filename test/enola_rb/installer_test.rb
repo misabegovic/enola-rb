@@ -79,16 +79,22 @@ class EnolaRbInstallerTest < EnolaTest
     assert_equal 1, File.read(File.join(@app, "enola", "constraints", "recipes.yaml")).scan("Shipped recipes not bound").size
   end
 
+  # The resolver is replaced as well as the channel: whichever channel's gem is
+  # loaded installs its own factory, and that factory would reach its own
+  # releases over the network rather than the unreachable one named here.
   def test_an_absent_binary_still_writes_the_laws_and_says_so
     ENV["ENOLA_CACHE_DIR"] = File.join(@tmp, "empty-cache")
-    installed = Enola.channel
+    channel_before = Enola.channel
+    factory_before = Enola.resolver_factory
     Enola.channel = unreachable
+    Enola.resolver_factory = -> { resolver(channel: unreachable) }
     report = install(binary: nil)
 
     assert File.exist?(File.join(@app, "enola", "constraints", "models-do-not-reach-controllers.rb"))
     assert report.notes.any? { |note| note.include?("absent") }, report.notes.inspect
   ensure
-    Enola.channel = installed
+    Enola.channel = channel_before
+    Enola.resolver_factory = factory_before
     ENV.delete("ENOLA_CACHE_DIR")
   end
 
