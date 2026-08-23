@@ -5,5 +5,5 @@ module Munola
   # CHANNEL_VERSION the fork release the gem fetches.
   UPSTREAM_VERSION = "0.4.4"
   CHANNEL_VERSION = "0.4.4.2"
-  VERSION = "0.5.1"
+  VERSION = "0.5.2"
 end

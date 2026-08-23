@@ -1,3 +1,18 @@
+## enola 0.5.2, enola-rb 0.5.2, munola 0.5.2 and munola-rb 0.5.2 (2026-08-23)
+
+Rubydex is off in the config these gems write, and named in a comment beside
+the reason. The release each gem drives carries a walk that can fail to
+return: a constant reference spanning lines could be treated as its own
+predecessor, so a tree with vendored gems could snapshot for twenty-six
+minutes and several gigabytes without finishing. Two of the three Rails trees
+it was tried on did exactly that.
+
+The fix exists and is not yet in a published enola, so the default cannot
+depend on it. Prism is unaffected and stays on: it parses a monolith in 13.7
+seconds. Uncommenting the two lines brings Rubydex back for anyone who wants
+it deliberately, and the default returns the moment the binary each gem drives
+carries the fix.
+
 ## enola 0.5.1 (2026-08-23)
 
 The resolver no longer probes its own binstub. It read a candidate's first 512
