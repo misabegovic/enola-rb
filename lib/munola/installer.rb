@@ -59,6 +59,10 @@ module Munola
       File.join(@root, "enola", "constraints", "recipes.yaml")
     end
 
+    # A munola binary carries the catalogue itself, so its own `constraints
+    # init` may already have bound a recipe this would bind again, and two
+    # instances of one recipe expand to colliding rule ids. What the file
+    # already names is left alone and counted as bound.
     def bind(names)
       @bound = names & Catalogue::RECIPES
       @commented = Catalogue::RECIPES - @bound
@@ -66,7 +70,8 @@ module Munola
       return if existing.include?("# munola catalogue")
 
       doc = YAML.safe_load(existing) || {}
-      entries = Array(doc["use_recipe"]) + @bound.map { |name| { "recipe" => name, "as" => name, "mode" => "advisory" } }
+      declared = Array(doc["use_recipe"]).map { |entry| entry["recipe"] }.compact
+      entries = Array(doc["use_recipe"]) + (@bound - declared).map { |name| { "recipe" => name, "as" => name, "mode" => "advisory" } }
       body = YAML.dump({ "use_recipe" => entries }).sub(/\A---\n/, "")
       tail = existing[/\n# Shipped recipes not bound.*\z/m].to_s
       commented = @commented.map { |name| "#  - recipe: #{name}\n#    as: #{name}\n#    mode: advisory\n" }.join

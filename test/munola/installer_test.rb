@@ -188,4 +188,18 @@ class MunolaInstallerTest < EnolaTest
     error = assert_raises(Enola::Unavailable) { install }
     assert_match(/no recipe ember-conventions; it needs 0\.3\.1 or later/, error.message)
   end
+  # A munola binary carries the catalogue, so its own init may bind a recipe
+  # the installer would bind again; two instances of one recipe expand to
+  # colliding rule ids, which the snapshot refuses.
+  def test_a_recipe_the_binary_already_bound_is_not_bound_twice
+    rails_app
+    FileUtils.mkdir_p(File.join(@app, "enola", "constraints"))
+    File.write(File.join(@app, "enola", "constraints", "recipes.yaml"),
+               "use_recipe:\n  - recipe: rails-conventions\n    as: rails\n  - recipe: data-ownership\n    as: data-ownership\n")
+    report = install
+
+    assert_equal 1, bindings.count("data-ownership")
+    assert_includes report.bound, "data-ownership"
+  end
+
 end
