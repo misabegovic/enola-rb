@@ -1,5 +1,3 @@
 # frozen_string_literal: true
 
-module Enola
-  VERSION = "0.0.0"
-end
+require_relative "enola_rb/version"

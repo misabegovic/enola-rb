@@ -4,7 +4,7 @@ require_relative "lib/enola-rb"
 
 Gem::Specification.new do |spec|
   spec.name = "enola-rb"
-  spec.version = Enola::VERSION
+  spec.version = EnolaRb::VERSION
   spec.authors = ["Muhamed Isabegovic"]
   spec.email = ["m.isabegovic@hotmail.com"]
 
@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
   spec.files = [
     "LICENSE",
     "README.md",
-    "lib/enola-rb.rb"
+    "lib/enola-rb.rb",
+    "lib/enola_rb/version.rb"
   ]
 end

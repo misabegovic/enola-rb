@@ -1,30 +1,36 @@
 # frozen_string_literal: true
 
-require_relative "lib/enola"
+require_relative "lib/enola/version"
 
 Gem::Specification.new do |spec|
   spec.name = "enola"
-  spec.version = EnolaPlaceholder::VERSION
+  spec.version = Enola::VERSION
   spec.authors = ["Muhamed Isabegovic"]
   spec.email = ["m.isabegovic@hotmail.com"]
 
-  spec.summary = "Name placeholder held for the enola project; not an official release."
+  spec.summary = "Runs the released enola from Ruby: fetched on first use, verified, pinned to this gem's version."
   spec.description = <<~TEXT
-    This gem is a placeholder, not an implementation. enola is an
-    architecture-graph tool written in Go by enola-labs, which has no Ruby
-    package. This name is held so that it stays available to that project, and
-    will be transferred to its maintainers on request. For Ruby usage today,
-    see the enola-rb gem.
+    A pure-Ruby wrapper around enola, the architecture-graph tool by enola-labs.
+    The gem's version is the upstream release it drives. The binary is not in
+    the gem: the first command that needs it downloads the release for your
+    platform, verifies it against the checksum the release publishes, and keeps
+    it in a per-user cache. Every command and exit code is forwarded unchanged.
+    This gem is not an enola-labs release.
   TEXT
-  spec.homepage = "https://github.com/enola-labs/enola"
+  spec.homepage = "https://github.com/misabegovic/enola-rb"
   spec.license = "Apache-2.0"
   spec.required_ruby_version = ">= 3.1.0"
 
-  spec.metadata["source_code_uri"] = "https://github.com/misabegovic/enola-rb"
+  spec.metadata["source_code_uri"] = spec.homepage
+  spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/main/CHANGELOG.md"
 
   spec.files = [
     "LICENSE",
     "README.md",
-    "lib/enola.rb"
+    "CHANGELOG.md",
+    "lib/enola.rb",
+    *Dir.glob("lib/enola/*.rb")
   ]
+  spec.bindir = "exe"
+  spec.executables = ["enola"]
 end
