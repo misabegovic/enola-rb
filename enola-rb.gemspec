@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "lib/enola-rb"
+require_relative "lib/enola_rb/version"
 
 Gem::Specification.new do |spec|
   spec.name = "enola-rb"
@@ -8,12 +8,13 @@ Gem::Specification.new do |spec|
   spec.authors = ["Muhamed Isabegovic"]
   spec.email = ["m.isabegovic@hotmail.com"]
 
-  spec.summary = "Runs enola from Ruby, with defaults chosen for Rails stacks."
+  spec.summary = "The Rails layer over the enola gem: rake tasks and a generator that writes the guides' starter laws."
   spec.description = <<~TEXT
-    A Ruby wrapper around enola, the architecture-graph tool: presets, defaults
-    and a command surface aimed at Rails applications. Drives whichever enola
-    binary is on your path; add the munola gem to use the build this project
-    ships instead. Placeholder release; no implementation yet.
+    Adds the Rails layer to the enola gem: `rails generate enola:install` writes
+    enola/constraints/ from the enola-guides starter laws and binds the recipes
+    the released enola's own `constraints init` picks for the app, and the
+    enola:init, enola:snapshot and enola:check rake tasks drive the binary the
+    `enola` gem fetches and verifies. Pure Ruby; no binary, nothing compiled.
   TEXT
   spec.homepage = "https://github.com/misabegovic/enola-rb"
   spec.license = "Apache-2.0"
@@ -25,7 +26,12 @@ Gem::Specification.new do |spec|
   spec.files = [
     "LICENSE",
     "README.md",
+    "CHANGELOG.md",
     "lib/enola-rb.rb",
-    "lib/enola_rb/version.rb"
+    *Dir.glob("lib/enola_rb/*"),
+    *Dir.glob("lib/generators/**/*.rb")
   ]
+
+  spec.add_dependency "enola", EnolaRb::VERSION
+  spec.add_dependency "enola-guides", ">= 0.2.1"
 end

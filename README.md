@@ -37,13 +37,37 @@ answers and which surfaces it has (`constraints`, `providers`, `check`,
 
 This gem is not an enola-labs release; it runs theirs.
 
-## `enola-rb` and `munola`
+## `enola-rb`
 
-Placeholders at 0.0.0. `enola-rb` will depend on `enola` and on
-[enola-guides](https://github.com/misabegovic/enola-guides) and add the Rails
-layer: rake tasks, `rails generate enola:install` writing `enola/constraints/`
-from the guides' recipes, and the capability probe the generator needs.
-`munola` will be the same wrapper over another channel, the build this
-project maintains, carrying the guides' content and the recipes for the
-architectures they cover, versioned as the upstream it is built on plus a
-fourth segment, and saying in each release what differs from that upstream.
+The Rails layer over `enola`. It depends on `enola` at the same version and on
+[enola-guides](https://github.com/misabegovic/enola-guides), and adds nothing
+to the binary's surface.
+
+```ruby
+gem "enola-rb"
+```
+
+```sh
+bin/rails generate enola:install
+bin/rake enola:snapshot
+bin/rake enola:check
+```
+
+The generator writes `enola/constraints/` from the guides' starter laws (four
+laws a Rails team keeps, each with its reason), asks the binary's own
+`constraints init` to bind the shipped recipes whose roles resolve in the app,
+writes every other shipped recipe as a commented binding to uncomment once the
+directories exist, and ignores `.enola/`. It reads what `init` wrote rather
+than its exit code, and when the binary cannot be fetched it still writes the
+laws and says so. `enola:snapshot` generates and pins the baseline;
+`enola:check` grades the working tree against it and fails on a new breach of
+a declared law. A surface the pinned binary lacks is refused by name with the
+remedy.
+
+## `munola`
+
+Placeholder at 0.0.0. `munola` will be the same wrapper over another channel,
+the build this project maintains, carrying the guides' content and the recipes
+for the architectures they cover, versioned as the upstream it is built on
+plus a fourth segment, and saying in each release what differs from that
+upstream.
