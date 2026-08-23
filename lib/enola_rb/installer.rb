@@ -25,6 +25,7 @@ module EnolaRb
     def install
       raise Enola::Unavailable, "#{@root} holds no app/ directory; run this from the Rails root" unless File.directory?(File.join(@root, "app"))
 
+      write_config
       copy_starter_laws
       init_with_binary
       comment_unbound
@@ -33,6 +34,11 @@ module EnolaRb
     end
 
     private
+
+    def write_config
+      written = Enola::Config.write_default(@root)
+      @report.written << relative(written) if written
+    end
 
     def constraints_dir
       File.join(@root, "enola", "constraints")

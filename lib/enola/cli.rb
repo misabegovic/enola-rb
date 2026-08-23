@@ -13,6 +13,11 @@ module Enola
       when "--wrapper-fetch"
         stdout.puts Fetcher.new.fetch
         0
+      when "init"
+        root = argv[1] || "."
+        written = Config.write_default(root)
+        stdout.puts(written ? "wrote #{written}" : "#{Config.path(root)} already exists, left as is")
+        Runner.new(stderr: stderr).run(["constraints", "init", root])
       else
         Runner.new.exec(argv)
       end

@@ -10,6 +10,7 @@ module Enola
 
     def command(argv)
       found = @resolver.resolve
+      Providers.ensure_rubydex(found.path, channel: @channel, stderr: @stderr)
       @stderr.puts "enola: #{@channel} via #{found.source} (#{found.path})" if argv.include?("--verbose")
       [found.path, *argv]
     end

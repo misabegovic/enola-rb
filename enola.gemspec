@@ -29,8 +29,11 @@ Gem::Specification.new do |spec|
     "README.md",
     "CHANGELOG.md",
     "lib/enola.rb",
-    *Dir.glob("lib/enola/*.rb")
+    *Dir.glob("lib/enola/*.rb"),
+    *Dir.glob("lib/enola/providers/**/*.rb")
   ]
+
+  spec.add_dependency "prism", ">= 1.3"
   spec.bindir = "exe"
   spec.executables = ["enola"]
 end

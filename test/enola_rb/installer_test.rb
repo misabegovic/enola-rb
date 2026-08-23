@@ -39,6 +39,13 @@ class EnolaRbInstallerTest < EnolaTest
     EnolaRb::Installer.new(@app, binary: binary, stderr: StringIO.new).install
   end
 
+  def test_writes_the_provider_config_before_anything_else
+    report = install
+
+    assert_equal "mcp-arch.yaml", report.written.first
+    assert_match(/name: prism/, File.read(File.join(@app, "mcp-arch.yaml")))
+  end
+
   def test_writes_the_starter_laws_and_ignores_the_artifacts
     report = install
 
