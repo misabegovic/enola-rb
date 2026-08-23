@@ -39,6 +39,36 @@ class ResolverTest < EnolaTest
     assert_match(/the enola on PATH is 0\.3\.9, the Gemfile pins #{Enola::UPSTREAM_VERSION}/, error.message)
   end
 
+  # The binstub above is short enough that the guard's fixed-size read reaches
+  # the marker. A real one is not: RubyGems writes a /bin/sh + `ruby -x` polyglot
+  # preamble carrying the interpreter's absolute path, which pushes
+  # `Gem.activate_bin_path` past the first 512 bytes. Reading a fixed head made the
+  # wrapper probe itself, and probing itself has no bottom.
+  def test_a_rubygems_binstub_is_recognised_however_long_its_preamble_is
+    stub = FakeRelease.gem_binstub(File.join(@tmp, "bin"))
+
+    refute_operator File.binread(stub).index("Gem.activate_bin_path"), :<, 512,
+                    "fixture no longer reproduces the shape this guards against"
+    assert resolver.send(:wrapper?, stub), "a RubyGems binstub must never be probed"
+  end
+
+  # Belt and braces: whatever a content check concludes, a probe must not be able
+  # to start another one. The child is told it is inside a probe, and a resolver
+  # that sees the marker declines to look at PATH at all.
+  def test_a_binary_probed_by_the_resolver_never_probes_in_turn
+    matching = FakeRelease.binary(File.join(@tmp, "bin"), Enola::UPSTREAM_VERSION)
+
+    ENV[Enola::Resolver::PROBE_ENV] = "1"
+    begin
+      found = resolver(path: File.dirname(matching)).resolve
+    ensure
+      ENV.delete(Enola::Resolver::PROBE_ENV)
+    end
+
+    assert_equal "fetched", found.source,
+                 "a resolver running inside a probe must not probe PATH again"
+  end
+
   def test_the_wrapper_itself_and_gem_binstubs_on_path_are_never_probed
     FileUtils.mkdir_p(File.join(@tmp, "bin"))
     stub = File.join(@tmp, "bin", "enola")
