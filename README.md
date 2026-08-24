@@ -4,10 +4,11 @@ Four pure-Ruby gems, one repository, for running
 [enola](https://github.com/enola-labs/enola), the architecture-graph tool,
 from Ruby. None of them carries a binary or compiles anything.
 
-Two channels, the same layering on both: `enola` wraps the released upstream
-binary and `enola-rb` adds the Rails layer on it; `munola` wraps the munola
-binary and `munola-rb` adds the Rails layer on that. The Rails code is written
-once, in `enola-rb`, and the munola gems add only what is munola's own.
+Two channels. `enola` wraps the released upstream binary and `enola-rb` adds
+the Rails layer on it, split so a Rubyist can take the wrapper without Rails.
+`munola` is one gem for its own channel, wrapper and Rails layer together,
+because nobody installs it to avoid Rails. The Rails code is written once, in
+`enola-rb`, and munola adds only what is munola's own.
 
 ## `enola`
 
@@ -109,14 +110,9 @@ publishes; `MUNOLA_BINARY=/path/to/enola` names one to drive instead, and
 every command says which answered. `munola` depends on `enola` at the same
 minor and on `enola-guides` 0.3.1 or later; requiring it loads no Rails.
 
-## `munola-rb`
+## munola under Rails
 
-The Rails layer over `munola`, what `enola-rb` is to `enola`. It depends on
-both at the same minor and adds one generator.
-
-```ruby
-gem "munola-rb"
-```
+munola carries its own generator, and the rake tasks are enola-rb's:
 
 ```sh
 bin/rails generate munola:install --tenant-column company_id
@@ -124,7 +120,8 @@ bin/rake enola:snapshot
 bin/rake enola:check
 ```
 
-The generator runs the same install `munola init` does. The rake tasks are
-enola-rb's and need no munola copy: `munola` installs its own resolver when it
-loads, so `enola:snapshot` and `enola:check` drive the munola binary in an app
-that has this gem, and the upstream binary in one that does not.
+The generator runs the same install `munola init` does. `munola` installs its
+own resolver when it loads, so `enola:snapshot` and `enola:check` drive the
+munola binary in an app that has this gem, and the upstream binary in one that
+does not. Requiring munola loads no Rails; the generator registers when the
+application has already loaded it.
