@@ -3,10 +3,10 @@
 require_relative "../test_helper"
 require "rails"
 require "rails/generators"
-require "munola-rb"
+require "munola"
 require "yaml"
 
-class MunolaRbGeneratorTest < EnolaTest
+class MunolaGeneratorTest < EnolaTest
   GUIDES = File.expand_path("../fixtures/guides", __dir__)
 
   STUB = <<~SH

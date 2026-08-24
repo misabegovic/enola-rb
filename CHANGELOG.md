@@ -1,3 +1,20 @@
+## enola 0.5.3, enola-rb 0.5.3 and munola 0.6.0 (2026-08-24)
+
+Both providers are on again. enola-labs shipped the prefix walk fix in 0.4.6,
+which is the release the enola and enola-rb gems now drive, so the config they
+write carries Prism and Rubydex as it did before the hang was found.
+
+munola waits. Its binary is a fork release cut before that fix, so it stays on
+Prism alone until the channel is re-cut, and its version file says which
+upstream it is built on rather than implying the newest.
+
+munola-rb is gone, and was never published. The railtie and generator move
+into munola, which is why munola is 0.6.0: one gem for one channel, since the
+split that makes sense for enola and enola-rb, letting a Rubyist take the
+binary wrapper without the Rails layer, does not describe anyone's use of
+munola. Requiring munola still loads no Rails; the generator registers when
+the application has already loaded it.
+
 ## enola 0.5.2, enola-rb 0.5.2, munola 0.5.2 and munola-rb 0.5.2 (2026-08-23)
 
 Rubydex is off in the config these gems write, and named in a comment beside

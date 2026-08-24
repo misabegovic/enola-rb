@@ -3,9 +3,9 @@
 require_relative "../test_helper"
 require "rails"
 require "rails/generators"
-require "munola-rb"
+require "munola"
 
-class MunolaRbRailtieTest < EnolaTest
+class MunolaRailtieTest < EnolaTest
   def test_the_railtie_loads_the_generator_and_the_tasks_that_come_with_enola_rb
     Rake.application = Rake::Application.new
     app = Class.new(Rails::Application) { config.eager_load = false }
@@ -17,7 +17,7 @@ class MunolaRbRailtieTest < EnolaTest
   end
 
   def test_the_version_follows_munola
-    assert_equal Munola::VERSION, MunolaRb::VERSION
+    assert Munola.const_defined?(:Railtie), "the railtie loads with Rails defined"
   end
 
   # The rake tasks are enola-rb's and drive whatever resolver is installed;

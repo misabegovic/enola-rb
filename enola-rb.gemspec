@@ -32,6 +32,6 @@ Gem::Specification.new do |spec|
     *Dir.glob("lib/generators/enola/**/*.rb")
   ]
 
-  spec.add_dependency "enola", "~> 0.5.0"
+  spec.add_dependency "enola", "~> 0.5.3"
   spec.add_dependency "enola-guides", ">= 0.2.1"
 end

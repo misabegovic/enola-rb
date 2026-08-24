@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module MunolaRb
+module Munola
   # The enola:* tasks come from the enola-rb railtie and drive whatever channel
   # is installed; requiring munola installs its resolver, so under this gem
   # they run the munola binary. Only the generator is munola's own.

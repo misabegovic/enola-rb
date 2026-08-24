@@ -20,11 +20,9 @@ module Enola
 
     def self.render(ruby: Providers.ruby)
       <<~YAML
-        # Written by the enola gem; edit freely. Prism is on by default and runs
-        # under the Ruby that runs the gem. Rubydex is left off: the release this
-        # gem drives has a walk that can fail to return on a tree with vendored
-        # gems, fixed but not yet in a published enola. Uncomment it to run it
-        # anyway, and expect a snapshot that may not finish.
+        # Written by the enola gem; edit freely. Both providers are on: Prism runs
+        # under the Ruby that runs the gem, Rubydex is built into the binary and
+        # fetched once. Remove one to leave it out of the graph.
         repo: .
         repos:
           - .
@@ -34,8 +32,8 @@ module Enola
           - name: prism
             command: [#{ruby.inspect}, #{Providers.prism_script.inspect}]
             expected_version: "#{Providers.prism_version || '0.1.0'}"
-        # - name: rubydex
-        #   expected_version: "#{Providers::RUBYDEX_EXPECTED_VERSION}"
+          - name: rubydex
+            expected_version: "#{Providers::RUBYDEX_EXPECTED_VERSION}"
       YAML
     end
   end

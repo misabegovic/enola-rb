@@ -16,7 +16,9 @@ class MunolaChannelTest < EnolaTest
   def test_the_gem_versions_itself_and_names_what_it_drives
     assert_match(/\A\d+\.\d+\.\d+\z/, Munola::VERSION)
     assert_match(/\A#{Regexp.escape(Munola::UPSTREAM_VERSION)}\.\d+\z/, Munola::CHANNEL_VERSION)
-    assert_equal Enola::UPSTREAM_VERSION, Munola::UPSTREAM_VERSION
+    # The channel's own upstream may lag the enola gem's between a fork
+    # release and the next carve: what must hold is that CHANNEL_VERSION is
+    # built on the upstream this gem names, which the assertion above states.
   end
 
   def test_a_release_at_the_munola_tag_is_fetched_and_verified

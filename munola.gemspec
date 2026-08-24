@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
     enola-guides gem carries (Ember, data ownership, API boundaries,
     background work, a tenant foreign key) into the project, binds the
     recipes its tree justifies, and turns both Ruby providers on by default.
-    The Rails generator lives in munola-rb. Offered upstream where it fits;
+    Under Rails it adds `rails generate munola:install`; the enola:* rake tasks come from enola-rb and drive munola's binary. Offered upstream where it fits;
     no binary here, nothing compiled.
   TEXT
   spec.homepage = "https://github.com/misabegovic/enola-rb"
@@ -38,12 +38,13 @@ Gem::Specification.new do |spec|
     "README.md",
     "CHANGELOG.md",
     "lib/munola.rb",
-    *Dir.glob("lib/munola/*")
+    *Dir.glob("lib/munola/*"),
+    *Dir.glob("lib/generators/munola/**/*.rb")
   ]
   spec.bindir = "exe"
   spec.executables = ["munola"]
 
-  spec.add_dependency "enola", "~> 0.5.0"
-  spec.add_dependency "enola-rb", "~> 0.5.0"
+  spec.add_dependency "enola", "~> 0.5.3"
+  spec.add_dependency "enola-rb", "~> 0.5.3"
   spec.add_dependency "enola-guides", ">= 0.3.1"
 end

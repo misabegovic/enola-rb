@@ -12,8 +12,8 @@ class MunolaWithoutRailsTest < EnolaTest
     assert_equal 'nil munola Munola::Resolver', out.strip
   end
 
-  def test_requiring_munola_rb_loads_rails_and_keeps_the_channel
-    script = 'require "munola-rb"; puts [defined?(Rails::Railtie).inspect, Enola.channel.name].join(" ")'
+  def test_the_generator_registers_when_the_application_has_loaded_rails
+    script = 'require "rails"; require "munola"; puts [defined?(Munola::Railtie).inspect, Enola.channel.name].join(" ")'
     out = IO.popen([RbConfig.ruby, "-I#{File.expand_path('../../lib', __dir__)}", "-e", script], &:read)
 
     assert_equal '"constant" munola', out.strip

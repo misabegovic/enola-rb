@@ -1,18 +1,15 @@
 PATH
   remote: .
   specs:
-    enola (0.5.2)
+    enola (0.5.3)
       prism (>= 1.3)
-    enola-rb (0.5.2)
-      enola (~> 0.5.0)
+    enola-rb (0.5.3)
+      enola (~> 0.5.3)
       enola-guides (>= 0.2.1)
-    munola (0.5.2)
-      enola (~> 0.5.0)
+    munola (0.6.0)
+      enola (~> 0.5.3)
       enola-guides (>= 0.3.1)
-      enola-rb (~> 0.5.0)
-    munola-rb (0.5.2)
-      enola-rb (~> 0.5.0)
-      munola (~> 0.5.0)
+      enola-rb (~> 0.5.3)
 
 GEM
   remote: https://rubygems.org/
@@ -130,7 +127,6 @@ DEPENDENCIES
   enola-rb!
   minitest (~> 5.25)
   munola!
-  munola-rb!
   railties (~> 8.1)
   rake (~> 13.3)
 
@@ -146,9 +142,9 @@ CHECKSUMS
   connection_pool (3.0.2) sha256=33fff5ba71a12d2aa26cb72b1db8bba2a1a01823559fb01d29eb74c286e62e0a
   crass (1.0.7) sha256=94868719948664c89ddcaf0a37c65048413dfcb1c869470a5f7a7ceb5390b295
   drb (2.2.3) sha256=0b00d6fdb50995fe4a45dea13663493c841112e4068656854646f418fda13373
-  enola (0.5.2)
+  enola (0.5.3)
   enola-guides (0.3.1) sha256=232b27b2d50fa603d08ac2a0da625ae61eb426a188ea2ed56d1fe075ba615a88
-  enola-rb (0.5.2)
+  enola-rb (0.5.3)
   erb (6.0.7) sha256=c5ca6dc25b0ef974a44dc8f59fe847577122483b1968a38dec305c60bf91ee92
   erubi (1.13.1) sha256=a082103b0885dbc5ecf1172fede897f9ebdb745a4b97a5e8dc63953db1ee4ad9
   i18n (1.15.2) sha256=00f9eb62412fe593b2a65a97daa75300d37abb8f7202ec748e94b6d46a9dd1b5
@@ -158,8 +154,7 @@ CHECKSUMS
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
   loofah (2.25.2) sha256=2007f746959ac65552456e04b433e83deb22759ab38c838b4445c70e43425918
   minitest (5.27.0) sha256=2d3b17f8a36fe7801c1adcffdbc38233b938eb0b4966e97a6739055a45fa77d5
-  munola (0.5.2)
-  munola-rb (0.5.2)
+  munola (0.6.0)
   nokogiri (1.19.4-x86_64-linux-gnu) sha256=379fae440b28915e3f19d752ce2dcf8465ed2b2fbefd2a7ca0dd497bc981a06a
   pp (0.6.4) sha256=dfcb0fce700c41456265922884f9fe195d7fbb0674a3578e6c0f69588e82b570
   prettyprint (0.2.0) sha256=2bc9e15581a94742064a3cc8b0fb9d45aae3d03a1baa6ef80922627a0766f193
