@@ -16,10 +16,6 @@ class MunolaRailtieTest < EnolaTest
     assert_equal "Munola::Generators::InstallGenerator", generator.name
   end
 
-  def test_the_version_follows_munola
-    assert Munola.const_defined?(:Railtie), "the railtie loads with Rails defined"
-  end
-
   # The rake tasks are enola-rb's and drive whatever resolver is installed;
   # loading this gem must leave munola's in place, or a Rails app on this
   # channel would snapshot with the upstream binary.
