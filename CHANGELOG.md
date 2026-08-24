@@ -1,3 +1,21 @@
+## munola 0.6.1 (2026-08-24)
+
+munola drives channel release `0.4.6.1`, cut from the promoted current at
+upstream enola 0.4.6. The prefix walk fix is in the binary this gem fetches,
+so the expiry the 0.6.0 note named is met and Rubydex is on by default again.
+The channel still carries the exclusion filter, which upstream merged an hour
+after 0.4.6 was published, so an excluded document is skipped before its
+definitions are read: 440 seconds to 193 on a Rails monolith, facts identical.
+
+The 0.6.0 note said munola waits on Prism alone. On the Rails install path it
+did not. `munola init` reuses enola-rb's installer, which writes
+`mcp-arch.yaml` first, and munola's own writer yields to a file that already
+exists, so the config every Rails project got was the enola gem's, with both
+providers on, against a channel binary built before the fix. Two things follow.
+The config and the binary now agree, which is what closes it. And munola's
+writer has a test that reads munola's writer, rather than one that reads the
+file enola-rb wrote and reports on munola.
+
 ## enola 0.5.3, enola-rb 0.5.3 and munola 0.6.0 (2026-08-24)
 
 Both providers are on again. enola-labs shipped the prefix walk fix in 0.4.6,

@@ -27,10 +27,7 @@ module Munola
       else
         lines << "  # prism: the enola gem on this machine carries no provider script; add one here to run it"
       end
-      lines += ["  # rubydex is off until the channel release carries the walk fix:",
-        "  # a reference spanning lines could be its own predecessor, so a tree with",
-        "  # vendored gems could snapshot without ever finishing. Uncomment to run it.",
-        "  # - name: rubydex", "  #   expected_version: \"#{RUBYDEX_VERSION}\""]
+      lines += ["  - name: rubydex", "    expected_version: \"#{RUBYDEX_VERSION}\""]
       "#{lines.join("\n")}\n"
     end
 

@@ -154,11 +154,20 @@ class MunolaInstallerTest < EnolaTest
     rails_app
     report = install
 
-    config = File.read(File.join(@app, "mcp-arch.yaml"))
-    assert_includes config, "name: rubydex"
-    assert_includes config, "expected_version: \"0.4.0\""
-    assert_includes config, "prism"
+    config = YAML.safe_load(File.read(File.join(@app, "mcp-arch.yaml")))
+    assert_equal %w[prism rubydex], config["providers"].map { |p| p["name"] }
+    assert_equal "0.4.0", config["providers"][1]["expected_version"]
     assert report.notes.any? { |n| n.include?("rubydex 0.4.0 library in place") }, report.notes.inspect
+  end
+
+  # The assertion above reads the file EnolaRb::Installer writes, since it runs
+  # first and ProvidersConfig.write yields to an existing file. munola's own
+  # render therefore needs its own reader, or a change to it is invisible here.
+  def test_munola_renders_both_providers_when_it_is_the_one_writing
+    config = YAML.safe_load(Munola::ProvidersConfig.render("/usr/bin/ruby"))
+
+    assert_equal %w[prism rubydex], config["providers"].map { |p| p["name"] }
+    assert_equal "0.4.0", config["providers"][1]["expected_version"]
   end
 
   def test_a_failed_rubydex_fetch_is_a_named_skip
