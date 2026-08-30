@@ -1,3 +1,14 @@
+## enola 0.5.4 and enola-rb 0.5.4 (2026-08-30)
+
+The gems drive upstream enola 0.4.10. Between 0.4.6 and here upstream took the
+exclusion filter (#255, in 0.4.7), rescored the layers explainer per language
+cohort (0.4.7), began reading package manifests as dependency facts with a
+declared-purpose diff (0.4.8), gave the dashboard its own command (0.4.9), and
+documented the snapshot artifacts as a versioned contract with fact identity
+(0.4.10). The vendored Prism provider script and the Rubydex engine pin are
+byte-identical across the span, so nothing re-vendors; the wrappers move by
+the release they name.
+
 ## munola 0.6.1 (2026-08-24)
 
 munola drives channel release `0.4.6.1`, cut from the promoted current at

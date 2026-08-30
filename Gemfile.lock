@@ -1,9 +1,9 @@
 PATH
   remote: .
   specs:
-    enola (0.5.3)
+    enola (0.5.4)
       prism (>= 1.3)
-    enola-rb (0.5.3)
+    enola-rb (0.5.4)
       enola (~> 0.5.3)
       enola-guides (>= 0.2.1)
     munola (0.6.1)
@@ -142,9 +142,9 @@ CHECKSUMS
   connection_pool (3.0.2) sha256=33fff5ba71a12d2aa26cb72b1db8bba2a1a01823559fb01d29eb74c286e62e0a
   crass (1.0.7) sha256=94868719948664c89ddcaf0a37c65048413dfcb1c869470a5f7a7ceb5390b295
   drb (2.2.3) sha256=0b00d6fdb50995fe4a45dea13663493c841112e4068656854646f418fda13373
-  enola (0.5.3)
+  enola (0.5.4)
   enola-guides (0.3.1) sha256=232b27b2d50fa603d08ac2a0da625ae61eb426a188ea2ed56d1fe075ba615a88
-  enola-rb (0.5.3)
+  enola-rb (0.5.4)
   erb (6.0.7) sha256=c5ca6dc25b0ef974a44dc8f59fe847577122483b1968a38dec305c60bf91ee92
   erubi (1.13.1) sha256=a082103b0885dbc5ecf1172fede897f9ebdb745a4b97a5e8dc63953db1ee4ad9
   i18n (1.15.2) sha256=00f9eb62412fe593b2a65a97daa75300d37abb8f7202ec748e94b6d46a9dd1b5
