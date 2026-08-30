@@ -1,3 +1,13 @@
+## munola 0.6.2 (2026-08-30)
+
+munola drives channel release `0.4.10.1`, cut from the promoted current at
+upstream enola 0.4.10. The difference list shrank again by contribution: the
+exclusion filter went upstream in 0.4.7, and the constraints reference this
+channel once carried inside INTENT.md shipped upstream as CONSTRAINTS.md and
+PROVIDERS.md over 0.4.5. What the channel still adds is the recipe catalogue
+at enola-guides v0.3.1, the init role binding, the cache-version double
+history and a readability spelling in blame.go.
+
 ## enola 0.5.4 and enola-rb 0.5.4 (2026-08-30)
 
 The gems drive upstream enola 0.4.10. Between 0.4.6 and here upstream took the

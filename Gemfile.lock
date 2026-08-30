@@ -6,7 +6,7 @@ PATH
     enola-rb (0.5.4)
       enola (~> 0.5.3)
       enola-guides (>= 0.2.1)
-    munola (0.6.1)
+    munola (0.6.2)
       enola (~> 0.5.3)
       enola-guides (>= 0.3.1)
       enola-rb (~> 0.5.3)
@@ -154,7 +154,7 @@ CHECKSUMS
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
   loofah (2.25.2) sha256=2007f746959ac65552456e04b433e83deb22759ab38c838b4445c70e43425918
   minitest (5.27.0) sha256=2d3b17f8a36fe7801c1adcffdbc38233b938eb0b4966e97a6739055a45fa77d5
-  munola (0.6.1)
+  munola (0.6.2)
   nokogiri (1.19.4-x86_64-linux-gnu) sha256=379fae440b28915e3f19d752ce2dcf8465ed2b2fbefd2a7ca0dd497bc981a06a
   pp (0.6.4) sha256=dfcb0fce700c41456265922884f9fe195d7fbb0674a3578e6c0f69588e82b570
   prettyprint (0.2.0) sha256=2bc9e15581a94742064a3cc8b0fb9d45aae3d03a1baa6ef80922627a0766f193
