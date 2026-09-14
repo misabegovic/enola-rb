@@ -1,3 +1,30 @@
+## enola 0.5.5, enola-rb 0.5.5 and munola 0.6.3 (2026-09-14)
+
+The enola and enola-rb gems drive upstream enola 0.4.19. Between 0.4.10 and
+here upstream read GraphQL server schemas so client operations have something
+to match (0.4.12), bound Python imports to the module they name and added the
+import-closure explainer (0.4.13), resolved C++ calls when the short name is
+unique (0.4.13), published pip wheels and lowered the glibc floor to 2.17
+(0.4.14, 0.4.15), stopped constraint checks skipping struct owners and
+knowledge-page components (0.4.16), made the dashboard reload its snapshot on
+refresh and bound Python calls to symbols a package defines in its own
+`__init__.py` (0.4.17), made install.sh POSIX and gave upgrades their own
+checksum (0.4.18), and made the Stop hook report once per session (0.4.19).
+`cacheVersion` moved from v257 to v265, so caches rebuild once and a pinned
+baseline can show a one-time change.
+
+The vendored Prism provider script is re-vendored from v0.4.19. It had stayed
+at provider version 0.1.0, the v0.4.4 script, while upstream moved it to 0.2.0
+in 0.4.5: the seam hands the script a `--files` listing of the paths it holds
+no cache entry for, and the 0.1.0 script parsed the whole tree regardless. The
+Rubydex engine pin is unchanged at 0.4.0, which is what 0.4.19 fetches.
+
+munola 0.6.3 still drives channel release `0.4.10.1`. It moves for one reason:
+the config it writes named the Prism provider's version as a fixed `0.1.0`,
+which no longer matches the script the enola gem carries; it now names the
+version the script answers, as the enola gem's config already did. Re-cutting
+the channel on 0.4.19 is a separate step.
+
 ## munola 0.6.2 (2026-08-30)
 
 munola drives channel release `0.4.10.1`, cut from the promoted current at

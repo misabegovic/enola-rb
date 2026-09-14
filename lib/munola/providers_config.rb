@@ -23,12 +23,17 @@ module Munola
       lines = ["repo: .", "repos:", "  - .", "providers:"]
       script = prism_script
       if script
-        lines += ["  - name: prism", "    command: [#{ruby.inspect}, #{script.inspect}]", "    expected_version: \"0.1.0\""]
+        lines += ["  - name: prism", "    command: [#{ruby.inspect}, #{script.inspect}]", "    expected_version: #{prism_version.inspect}"]
       else
         lines << "  # prism: the enola gem on this machine carries no provider script; add one here to run it"
       end
       lines += ["  - name: rubydex", "    expected_version: \"#{RUBYDEX_VERSION}\""]
       "#{lines.join("\n")}\n"
+    end
+
+    def self.prism_version
+      version = Enola::Providers.prism_version if Enola::Providers.respond_to?(:prism_version)
+      version || "0.2.0"
     end
 
     def self.prism_script
