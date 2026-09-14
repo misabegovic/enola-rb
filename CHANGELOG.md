@@ -19,11 +19,18 @@ in 0.4.5: the seam hands the script a `--files` listing of the paths it holds
 no cache entry for, and the 0.1.0 script parsed the whole tree regardless. The
 Rubydex engine pin is unchanged at 0.4.0, which is what 0.4.19 fetches.
 
-munola 0.6.3 still drives channel release `0.4.10.1`. It moves for one reason:
-the config it writes named the Prism provider's version as a fixed `0.1.0`,
-which no longer matches the script the enola gem carries; it now names the
-version the script answers, as the enola gem's config already did. Re-cutting
-the channel on 0.4.19 is a separate step.
+munola 0.6.3 drives channel release `0.4.19.1`, cut from the promoted current
+at upstream enola 0.4.19. Three changes promoted into the channel after
+0.4.10.1 ship for the first time: `enola check -member` grades one repository
+of a multi-repository config against the union pin by replaying it, a
+constraints sentence written in snake_case reaches a recipe published in
+kebab-case, and the module-edges binder keys symbol placement by repository
+and drops its own prior derivations before deriving. Still carried: the
+recipe catalogue at enola-guides v0.3.1, the init role binding, the
+cache-version double history at cacheVersion v265, and the blame.go
+spelling. The config munola writes also stops naming the Prism provider's
+version as a fixed `0.1.0`; it asks the script, as the enola gem's config
+already did.
 
 ## munola 0.6.2 (2026-08-30)
 
