@@ -13,7 +13,7 @@ because nobody installs it to avoid Rails. The Rails code is written once, in
 ## `enola`
 
 The wrapper of the released enola. The gem versions itself; the release it
-drives is `Enola::UPSTREAM_VERSION`, v0.4.19 as of `enola 0.5.5`, and every
+drives is `Enola::UPSTREAM_VERSION`, v0.4.32 as of `enola 0.5.6`, and every
 gemspec summary names it.
 
 ```ruby
@@ -29,7 +29,7 @@ bundle exec enola check .
 The first command that needs the binary downloads the release for your
 platform (linux, darwin, windows; amd64, arm64), verifies it against the
 sha256 file the same release publishes, and keeps it under
-`~/.cache/enola/upstream/0.4.19/` (`ENOLA_CACHE_DIR` moves the root). An
+`~/.cache/enola/upstream/0.4.32/` (`ENOLA_CACHE_DIR` moves the root). An
 `enola` already on your PATH is used only when it answers the pinned version;
 offline with an empty cache is a refusal that names the cache and the release
 rather than a fallback to whatever is installed. Nothing downloads at

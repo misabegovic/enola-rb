@@ -1,3 +1,28 @@
+## enola 0.5.6 and enola-rb 0.5.6 (2026-10-20)
+
+The enola and enola-rb gems drive upstream enola 0.4.32. Between 0.4.19 and
+here upstream indexed a folder of repositories as a cluster (0.4.20), took dead
+code, performance and package metrics into enola itself (0.4.21), installed as
+a Claude Code plugin (0.4.22), stopped counting loops that cannot grow (0.4.23),
+read FastAPI routes in every registration form (0.4.24), parsed Scala 3
+capture-checked code (0.4.25), linked a cross-repo call to the function making
+it and the one serving it (0.4.26), answered `enola impact` from the command
+line (0.4.27), rested performance findings on facts about the callee (0.4.28),
+walked a Laravel endpoint from its URL to its tables (0.4.29), added `enola
+flows` and a `doc` prop on symbols (0.4.30), bound more routes to their
+handlers and extracted TypeScript about twice as fast (0.4.31), and read docs
+from comments in ten languages, module docs from package comments among them,
+with a `docs.jsonl` renderer on by default (0.4.32). `cacheVersion` moved from v265 to v390, so caches rebuild
+once and a pinned baseline can show a one-time change.
+
+The vendored Prism provider script is re-vendored from v0.4.32. Its body is
+unchanged since v0.4.19 and it still answers provider version 0.2.0; only the
+line naming where it was vendored from moves. The Rubydex engine pin is
+unchanged at 0.4.0, which is what 0.4.32 fetches.
+
+munola is unchanged and still drives channel release `0.4.19.1`, until the
+channel is cut on 0.4.32.
+
 ## enola 0.5.5, enola-rb 0.5.5 and munola 0.6.3 (2026-09-14)
 
 The enola and enola-rb gems drive upstream enola 0.4.19. Between 0.4.10 and
