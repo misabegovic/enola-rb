@@ -9,7 +9,7 @@ module Munola
   # written once, never rewritten; the Rubydex library is fetched after the
   # binary, and a fetch that fails is a named skip, never a silent absence.
   module ProvidersConfig
-    RUBYDEX_VERSION = "0.4.0"
+    RUBYDEX_VERSION = "0.4.1"
 
     def self.write(root, ruby: RbConfig.ruby)
       path = File.join(root, "mcp-arch.yaml")

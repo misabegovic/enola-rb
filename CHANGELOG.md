@@ -1,3 +1,16 @@
+## munola 0.6.4 (2026-10-20)
+
+munola drives channel release `0.4.32.1`, cut from the promoted current at
+upstream enola 0.4.32 and published on misabegovic/enola as
+`munola-v0.4.32.1` (five platforms with checksums and a `version.json`). Its
+notes name 32 differences from upstream 0.4.32, among them the recipe
+catalogue at enola-guides v0.3.1 and the init role binding, the member check,
+the providers mode, the built-in prism provider and the larger MCP surface.
+
+The Rubydex version the config writes moves from 0.4.0 to 0.4.1, the library
+the 0.4.32.1 channel fetches. A config naming 0.4.0 would have the binary skip
+the provider for a version mismatch, silently.
+
 ## enola 0.5.6 and enola-rb 0.5.6 (2026-10-20)
 
 The enola and enola-rb gems drive upstream enola 0.4.32. Between 0.4.19 and
