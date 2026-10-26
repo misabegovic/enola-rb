@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "enola-rb"
+require "open3"
 
 namespace :enola do
   root = -> { defined?(Rails) && Rails.respond_to?(:root) && Rails.root ? Rails.root.to_s : Dir.pwd }
@@ -14,6 +15,14 @@ namespace :enola do
   desc "Write enola/constraints/ from the guides' starter and bind the shipped recipes whose roles resolve"
   task :init do
     EnolaRb::Installer.new(root.call).install.lines.each { |line| puts line }
+  rescue Enola::Error => e
+    abort("enola: #{e.message}")
+  end
+
+  desc "Summarise the application's structure: what it is, where to start reading, what is risky to change"
+  task :explain do
+    help, = Open3.capture2e(Enola.resolver.resolve.path, "--help")
+    run.call("--explain", *("--summary" if help.include?("--summary")), root.call)
   rescue Enola::Error => e
     abort("enola: #{e.message}")
   end

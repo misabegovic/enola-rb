@@ -28,10 +28,12 @@ Gem::Specification.new do |spec|
   TEXT
   spec.homepage = "https://github.com/misabegovic/enola-rb"
   spec.license = "Apache-2.0"
-  spec.required_ruby_version = ">= 3.1.0"
+  spec.required_ruby_version = ">= 3.2.0"
 
   spec.metadata["source_code_uri"] = spec.homepage
+  spec.metadata["documentation_uri"] = "#{spec.homepage}#readme"
   spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/main/CHANGELOG.md"
+  spec.metadata["bug_tracker_uri"] = "#{spec.homepage}/issues"
 
   spec.files = [
     "LICENSE",

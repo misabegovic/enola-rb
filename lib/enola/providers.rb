@@ -9,7 +9,7 @@ module Enola
   # script under the Ruby running this gem; Rubydex is built into the binary
   # and needs its engine library fetched once per binary version.
   module Providers
-    RUBYDEX_EXPECTED_VERSION = "0.4.0"
+    RUBYDEX_EXPECTED_VERSION = "0.4.1"
 
     def self.prism_script
       File.expand_path("providers/prism/enola_prism_provider.rb", __dir__)

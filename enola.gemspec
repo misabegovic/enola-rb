@@ -8,9 +8,14 @@ Gem::Specification.new do |spec|
   spec.authors = ["Muhamed Isabegovic"]
   spec.email = ["m.isabegovic@hotmail.com"]
 
-  spec.summary = "Runs the released enola from Ruby: fetched on first use, verified, cached. This release drives enola #{Enola::UPSTREAM_VERSION}."
+  spec.summary = "Catch architecture regressions in Ruby code against a pinned baseline: runs the released enola #{Enola::UPSTREAM_VERSION}, fetched and verified on first use."
   spec.description = <<~TEXT
-    A pure-Ruby wrapper around enola, the architecture-graph tool by enola-labs.
+    Catch the architecture regressions a change introduces: a new dependency
+    cycle, a layer crossed the wrong way, coupling nobody asked for. enola pins
+    your codebase's dependency graph as a baseline and grades each change
+    against it, and serves the graph to coding agents over MCP. This gem is a
+    pure-Ruby wrapper around enola, the architecture-graph tool by enola-labs,
+    so it runs from Bundler as `bundle exec enola`; for Rails, use enola-rb.
     The gem versions itself; the enola release it drives is named in its
     UPSTREAM_VERSION, #{Enola::UPSTREAM_VERSION} here. The binary is not in the
     gem: the first command that needs it downloads the release for your
@@ -20,10 +25,12 @@ Gem::Specification.new do |spec|
   TEXT
   spec.homepage = "https://github.com/misabegovic/enola-rb"
   spec.license = "Apache-2.0"
-  spec.required_ruby_version = ">= 3.1.0"
+  spec.required_ruby_version = ">= 3.2.0"
 
   spec.metadata["source_code_uri"] = spec.homepage
+  spec.metadata["documentation_uri"] = "#{spec.homepage}#readme"
   spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/main/CHANGELOG.md"
+  spec.metadata["bug_tracker_uri"] = "#{spec.homepage}/issues"
 
   spec.files = [
     "LICENSE",

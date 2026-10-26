@@ -27,7 +27,9 @@ module EnolaRb
 
       write_config
       copy_starter_laws
+      fresh = !File.exist?(bindings_path)
       init_with_binary
+      soften_layered if fresh
       comment_unbound
       ignore_artifacts
       @report
@@ -36,7 +38,7 @@ module EnolaRb
     private
 
     def write_config
-      written = Enola::Config.write_default(@root)
+      written = Enola::Config.write_default(@root, rubydex: Enola::Providers.rubydex_expected_version(@binary))
       @report.written << relative(written) if written
     end
 
@@ -68,6 +70,25 @@ module EnolaRb
       note("constraints init: #{out.lines.last&.strip}") unless status.success? || File.exist?(bindings_path)
     rescue Enola::Error => e
       note("the enola binary is absent (#{e.message}); the laws are written, run `rake enola:init` once it can be fetched")
+    end
+
+    # Rails routes a request through its models by design, and the binary's
+    # init binds layered with application on app/jobs, so its
+    # presentation-reaches-application-only rule reads every controller that
+    # calls a model as a breach and a ratchet fails the next one written. Only
+    # a recipes.yaml this install's init wrote is touched.
+    def soften_layered
+      return unless File.exist?(bindings_path)
+
+      text = File.read(bindings_path)
+      entry = text[/^  - recipe: layered\n(?:    .*\n)*/]
+      return if entry.nil? || entry.match?(/^    mode:/)
+
+      advisory = entry.sub(/^(    as: .*\n)/, "\\1    # Advisory: Rails controllers call models, which this recipe reads as a breach.\n    mode: advisory\n")
+      return if advisory == entry
+
+      File.write(bindings_path, text.sub(entry, advisory))
+      note("layered bound advisory: its rules report but never fail a check, since Rails controllers call models by design")
     end
 
     def bound

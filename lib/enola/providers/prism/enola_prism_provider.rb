@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-# Vendored from enola-labs/enola examples/providers/ruby/prism/enola_prism_provider.rb at v0.4.32 (37d74c08a48dfa6092ae5e37cc15edb390f66ec7), Apache-2.0.
+# Vendored from enola-labs/enola examples/providers/ruby/prism/enola_prism_provider.rb at v0.4.35 (9fe636b68967d113292d90bfca4cc7ebaa2f2b94), Apache-2.0.
 
 # enola Prism reference provider.
 #

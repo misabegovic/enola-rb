@@ -10,15 +10,17 @@ module Enola
       File.join(File.expand_path(root), FILE)
     end
 
-    def self.write_default(root, ruby: Providers.ruby)
+    # rubydex names the engine version the config pins; pass what the binary
+    # being driven lists, since a pin it does not fetch is a silent skip.
+    def self.write_default(root, ruby: Providers.ruby, rubydex: Providers::RUBYDEX_EXPECTED_VERSION)
       target = path(root)
       return nil if File.exist?(target)
 
-      File.write(target, render(ruby: ruby))
+      File.write(target, render(ruby: ruby, rubydex: rubydex))
       target
     end
 
-    def self.render(ruby: Providers.ruby)
+    def self.render(ruby: Providers.ruby, rubydex: Providers::RUBYDEX_EXPECTED_VERSION)
       <<~YAML
         # Written by the enola gem; edit freely. Both providers are on: Prism runs
         # under the Ruby that runs the gem, Rubydex is built into the binary and
@@ -33,7 +35,7 @@ module Enola
             command: [#{ruby.inspect}, #{Providers.prism_script.inspect}]
             expected_version: "#{Providers.prism_version || '0.1.0'}"
           - name: rubydex
-            expected_version: "#{Providers::RUBYDEX_EXPECTED_VERSION}"
+            expected_version: "#{rubydex}"
       YAML
     end
   end
