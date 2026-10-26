@@ -46,6 +46,43 @@ class EnolaRbInstallerTest < EnolaTest
     assert_match(/name: prism/, File.read(File.join(@app, "mcp-arch.yaml")))
   end
 
+  def test_the_config_pins_the_rubydex_version_the_binary_lists
+    File.write(@stub, INIT_STUB.sub("#!/bin/sh\n", "#!/bin/sh\n[ \"$1\" = providers ] && [ \"$2\" = list ] && { echo '  rubydex  9.9.9 at /nowhere'; exit 0; }\n"))
+    install
+
+    config = YAML.safe_load(File.read(File.join(@app, "mcp-arch.yaml")))
+    assert_equal "9.9.9", config["providers"][1]["expected_version"]
+  end
+
+  LAYERED = "use_recipe:\n  - recipe: layered\n    as: layered\n    bind:\n      presentation: { match: [\"app/controllers/**\"] }\n      " \
+            "application: { match: [\"app/jobs/**\"] }\n  - recipe: ruby-conventions\n    as: ruby-conventions\n"
+
+  def stub_init_writing(bindings)
+    source = File.join(@tmp, "init-wrote.yaml")
+    File.write(source, bindings)
+    File.write(@stub, INIT_STUB.sub(/printf '[^']*' >/, "cp #{source}"))
+  end
+
+  def test_layered_is_bound_advisory_so_a_controller_calling_a_model_fails_nothing
+    stub_init_writing(LAYERED)
+    report = install
+
+    doc = YAML.safe_load(File.read(File.join(@app, "enola", "constraints", "recipes.yaml")))
+    layered = doc["use_recipe"].find { |entry| entry["recipe"] == "layered" }
+    assert_equal "advisory", layered["mode"]
+    assert_equal({ "match" => ["app/jobs/**"] }, layered["bind"]["application"])
+    refute doc["use_recipe"].find { |entry| entry["recipe"] == "ruby-conventions" }.key?("mode")
+    assert report.notes.any? { |n| n.include?("layered bound advisory") }, report.notes.inspect
+  end
+
+  def test_a_recipes_file_the_app_already_had_is_left_alone
+    FileUtils.mkdir_p(File.join(@app, "enola", "constraints"))
+    File.write(File.join(@app, "enola", "constraints", "recipes.yaml"), LAYERED)
+    install
+
+    refute_match(/mode: advisory/, File.read(File.join(@app, "enola", "constraints", "recipes.yaml")))
+  end
+
   def test_writes_the_starter_laws_and_ignores_the_artifacts
     report = install
 

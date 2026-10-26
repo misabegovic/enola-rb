@@ -16,7 +16,8 @@ class MunolaInstallerTest < EnolaTest
       echo 'unknown command "constraints"'
       exit 1
     fi
-    if [ "$1" = "providers" ] && [ "$2" = "fetch" ]; then echo "rubydex 0.4.0 installed at $HOME/.cache"; exit "${FETCH_EXIT:-0}"; fi
+    if [ "$1" = "providers" ] && [ "$2" = "fetch" ]; then echo "rubydex 0.4.1 installed at $HOME/.cache"; exit "${FETCH_EXIT:-0}"; fi
+    if [ "$1" = "providers" ] && [ "$2" = "list" ]; then echo "  rubydex  0.4.1 at $HOME/.cache/librubydex_sys.so"; exit 0; fi
     echo "enola version #{Enola::UPSTREAM_VERSION}"
   SH
 
@@ -156,7 +157,7 @@ class MunolaInstallerTest < EnolaTest
 
     config = YAML.safe_load(File.read(File.join(@app, "mcp-arch.yaml")))
     assert_equal %w[prism rubydex], config["providers"].map { |p| p["name"] }
-    assert_equal "0.4.0", config["providers"][1]["expected_version"]
+    assert_equal "0.4.1", config["providers"][1]["expected_version"]
     assert report.notes.any? { |n| n.include?("rubydex 0.4.1 library in place") }, report.notes.inspect
   end
 

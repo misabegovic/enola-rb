@@ -3,6 +3,6 @@
 module Enola
   # The gem versions itself. UPSTREAM_VERSION names the enola release it
   # fetches and drives.
-  UPSTREAM_VERSION = "0.4.32"
-  VERSION = "0.5.6"
+  UPSTREAM_VERSION = "0.4.35"
+  VERSION = "0.5.7"
 end

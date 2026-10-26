@@ -19,7 +19,7 @@ class ConfigTest < EnolaTest
     assert_equal ["/opt/ruby/bin/ruby", Enola::Providers.prism_script], config["providers"][0]["command"]
     assert_equal Enola::Providers.prism_version, config["providers"][0]["expected_version"]
     refute config["providers"][1].key?("command")
-    assert_equal "0.4.0", config["providers"][1]["expected_version"]
+    assert_equal Enola::Providers::RUBYDEX_EXPECTED_VERSION, config["providers"][1]["expected_version"]
   end
 
   # The comment says what the two providers are, so a reader who wants one of

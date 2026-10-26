@@ -25,8 +25,8 @@ class TasksTest < EnolaTest
     super
   end
 
-  def test_defines_the_three_tasks_with_descriptions
-    assert_equal %w[enola:check enola:init enola:snapshot], @rake.tasks.map(&:name).sort
+  def test_defines_the_four_tasks_with_descriptions
+    assert_equal %w[enola:check enola:explain enola:init enola:snapshot], @rake.tasks.map(&:name).sort
     assert @rake.tasks.all? { |task| task.comment.to_s.length > 10 }
   end
 
@@ -60,5 +60,34 @@ class TasksTest < EnolaTest
     end
 
     assert_equal 1, error.status
+  end
+
+  def with_binary(help)
+    binary = File.join(@tmp, "help-enola")
+    File.write(binary, "#!/bin/sh\necho '#{help}'\n")
+    FileUtils.chmod(0o755, binary)
+    factory_before = Enola.resolver_factory
+    Enola.resolver_factory = -> { Struct.new(:resolve).new(Struct.new(:path).new(binary)) }
+    yield
+  ensure
+    Enola.resolver_factory = factory_before
+  end
+
+  def test_explain_asks_for_the_summary_when_the_binary_has_one
+    seen = []
+    with_binary("  --summary  With --explain: print a short summary") do
+      with_runner(->(argv) { seen << argv; 0 }) { Dir.chdir(@tmp) { @rake["enola:explain"].invoke } }
+    end
+
+    assert_equal [["--explain", "--summary", File.realpath(@tmp)]], seen
+  end
+
+  def test_explain_falls_back_to_the_full_report_on_a_binary_without_the_summary
+    seen = []
+    with_binary("  --explain  Print a statistics report") do
+      with_runner(->(argv) { seen << argv; 0 }) { Dir.chdir(@tmp) { @rake["enola:explain"].invoke } }
+    end
+
+    assert_equal [["--explain", File.realpath(@tmp)]], seen
   end
 end

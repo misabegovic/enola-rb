@@ -1,3 +1,54 @@
+## enola 0.5.7 and enola-rb 0.5.7 (2026-10-26)
+
+The enola and enola-rb gems drive upstream enola 0.4.35. Between 0.4.32 and
+here upstream locked the provider cache, which two Ruby providers running at
+once could corrupt or crash the engine on, and the gem's default config runs
+two (0.4.33); answered a `prism` entry with no `command` from the Rubydex
+index, so call edges no longer need Ruby on the machine (0.4.33); moved the
+Rubydex engine to 0.4.1 (0.4.33); removed false Ruby edges from methods
+declared in several modules and from namespace-opening modules, and followed
+calls through superclasses, included modules and Rails loading (0.4.33,
+0.4.34); keyed per-file provider cache entries by path as well as content
+(0.4.34); added a packwerk explainer and impact rolled up by pack (0.4.33);
+and added endpoint callers (0.4.35). `cacheVersion` moved from v390 to v465,
+so caches rebuild once and a pinned baseline can show a one-time change.
+
+The Rubydex pin the config writes moves from 0.4.0 to 0.4.1, the version
+0.4.35 fetches. The Rails installer now asks the binary it drives which
+Rubydex version it fetches (`providers list`) and writes that, rather than the
+gem's constant. `munola init` and `rails generate munola:install` wrote the
+enola gem's 0.4.0 while the munola channel fetches 0.4.1, so Rubydex was a
+silent skip there; munola picks the fix up through enola-rb with no release of
+its own. enola-rb now requires enola `~> 0.5.7` for it.
+
+The vendored Prism provider script is re-vendored from v0.4.35. Its body is
+unchanged since v0.4.19 and it still answers provider version 0.2.0. The gem
+keeps running the script rather than the built-in prism: upstream documents
+the built-in as close to the script, not identical.
+
+The Rails installer binds `layered` advisory. The binary's `constraints init`
+binds it on a Rails app with application on `app/jobs`, so its
+`presentation-reaches-application-only` rule read every controller that calls
+a model as a breach: 147 of Campfire's 178, and as a ratchet it failed
+`enola:check` on the next one, `@rooms = Room.all` in a new controller among
+them. Advisory, its rules report below the gate and never fail; a model
+reaching a controller still fails through the starter law
+`models-do-not-reach-controllers`. Only a `recipes.yaml` that init wrote during
+the install is touched, and the generator says what it did.
+
+`rake enola:explain` prints upstream's plain-language repository summary
+(`--explain --summary`, new in 0.4.33): what the app is, where to start
+reading, what is risky to change. It needs no config or baseline, and on a
+binary without `--summary`, such as munola's 0.4.32.1 channel, it prints the
+full `--explain` report instead.
+
+The README opens with what the gems catch, shown on 37signals' Campfire, then
+a Rails quick start, a GitHub Actions workflow that grades each pull request
+against its base and annotates the line, the agent setup and how enola sits
+next to RuboCop, Brakeman and Packwerk. The enola and enola-rb gemspecs lead
+with the same, and all three name the README and the issue tracker on
+rubygems.org. All three require Ruby 3.2, the oldest CI runs.
+
 ## munola 0.6.4 (2026-10-20)
 
 munola drives channel release `0.4.32.1`, cut from the promoted current at
